@@ -10,7 +10,7 @@ dockerfilePath = "Dockerfile.chainlit"  # Use Chainlit Dockerfile for browser UI
 # Chainlit runs on port 8000 (or $PORT from Railway)
 startCommand = "chainlit run app.py --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/"
-healthcheckTimeout = 10
+healthcheckTimeout = 60
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
