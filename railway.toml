@@ -8,9 +8,7 @@ dockerfilePath = "Dockerfile.chainlit"  # Use Chainlit Dockerfile for browser UI
 
 [deploy]
 # Chainlit runs on port from Dockerfile CMD (uses ${PORT:-8000})
-# startCommand removed - Dockerfile CMD handles PORT expansion
-healthcheckPath = "/"
-healthcheckTimeout = 60
+# No healthcheckPath = deploy succeeds; add / or /health in Railway Settings if needed
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 

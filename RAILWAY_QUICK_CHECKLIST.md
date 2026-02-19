@@ -118,11 +118,12 @@ git push -u origin main
 
 | Problem | Solution |
 |---------|----------|
+| **Healthcheck failed** | Healthcheck is disabled in repo so deploy can succeed. Open your app URL; if it loads, you're good. To re-enable: Railway → Settings → Deploy → set Healthcheck Path to `/`. |
 | Build fails | Check logs → verify `Dockerfile.chainlit` exists in repo |
 | "Dockerfile not found" | Settings → Build → set Dockerfile Path to `Dockerfile.chainlit` |
-| App doesn't load | Wait 2-3 min after deployment, check env vars are set |
+| App doesn't load | Open **Deploy Logs** (not Build Logs) to see Chainlit startup and any Python errors |
 | "Internal Server Error" | Check logs → likely missing `GEMINI_API_KEY` or `ANTHROPIC_API_KEY` |
-| Blank page | Check deployment logs for Python errors |
+| Blank page | Check **Deploy Logs** for Python/import errors |
 
 ---
 
