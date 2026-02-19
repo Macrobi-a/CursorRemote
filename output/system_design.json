@@ -1,0 +1,2760 @@
+{
+  "course_summary": "This business course provides comprehensive guidance on effectively gauging candidate commitment and fulfilling legal responsibilities in recruitment. It covers strategies for initial candidate screening through open-ended questions to assess motivations, career goals, and salary expectations for both permanent and contract roles. The course also details critical compliance checks, such as right-to-work and industry-specific certifications, emphasizing due diligence to ensure legally sound placements and efficient use of recruiter and client time. [Merged from multiple video batches.]",
+  "agents": [
+    {
+      "id": "agent_candidate_data_capture",
+      "name": "Candidate Data Capture Agent",
+      "role": "Collects initial CVs and basic candidate information from various sources (e.g., job board applications, direct submissions).",
+      "tools": [
+        "ATS/CRM",
+        "Email parsing",
+        "Web scraping (for public profiles)"
+      ],
+      "inputs": [
+        "Candidate CV files",
+        "Candidate contact details"
+      ],
+      "outputs": [
+        "Raw candidate profile data"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_screening_scheduler",
+      "name": "Screening Call Scheduler Agent",
+      "role": "Automates the scheduling of initial screening calls between recruiters and candidates.",
+      "tools": [
+        "Calendar scheduling software (e.g., Calendly, Microsoft Bookings)",
+        "Email/SMS automation"
+      ],
+      "inputs": [
+        "Candidate contact details",
+        "Recruiter availability"
+      ],
+      "outputs": [
+        "Confirmed screening call time and link"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_document_requester",
+      "name": "Eligibility Document Requester Agent",
+      "role": "Sends automated requests and reminders to candidates for necessary eligibility documents (e.g., passports, right-to-work documents, certifications).",
+      "tools": [
+        "Email automation",
+        "Document management system (DMS) integration"
+      ],
+      "inputs": [
+        "Candidate contact details",
+        "List of required documents",
+        "Submission deadline"
+      ],
+      "outputs": [
+        "Document request emails sent",
+        "Document submission status"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_document_storage_and_tracking",
+      "name": "Document Storage & Tracking Agent",
+      "role": "Securely stores all received candidate documents and tracks their status (e.g., pending verification, verified, rejected).",
+      "tools": [
+        "DMS (e.g., SharePoint, Google Drive)",
+        "ATS/CRM"
+      ],
+      "inputs": [
+        "Received documents (from candidate)",
+        "Compliance verification status"
+      ],
+      "outputs": [
+        "Stored document links",
+        "Updated document status"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_candidate_database_update",
+      "name": "Candidate Database Update Agent",
+      "role": "Maintains and updates candidate profiles in the ATS/CRM with all collected information, including screening notes, feedback, and compliance status.",
+      "tools": [
+        "ATS/CRM"
+      ],
+      "inputs": [
+        "Raw candidate profile data",
+        "Screening call notes",
+        "Interview debriefs",
+        "Offer status",
+        "Compliance status",
+        "Relationship notes"
+      ],
+      "outputs": [
+        "Updated candidate profile in ATS/CRM"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_job_matching_engine",
+      "name": "Job Matching Engine Agent",
+      "role": "Identifies suitable job openings for candidates based on their updated profiles and client job descriptions.",
+      "tools": [
+        "ATS/CRM search and filtering",
+        "AI-powered matching algorithms"
+      ],
+      "inputs": [
+        "Updated candidate profile (from `agent_candidate_database_update`)",
+        "Client job descriptions"
+      ],
+      "outputs": [
+        "List of potential job matches"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_application_preparer",
+      "name": "Application Preparer Agent",
+      "role": "Formats and compiles candidate CVs and other application materials according to client-specific requirements.",
+      "tools": [
+        "Document generation software",
+        "ATS/CRM"
+      ],
+      "inputs": [
+        "Candidate CV",
+        "Client-specific formatting guidelines"
+      ],
+      "outputs": [
+        "Formatted application package"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_feedback_collector",
+      "name": "Client Feedback Collector Agent",
+      "role": "Automates the collection of feedback from clients after candidate interviews.",
+      "tools": [
+        "Email automation",
+        "Survey tools",
+        "ATS/CRM"
+      ],
+      "inputs": [
+        "Client contact",
+        "Interview date",
+        "Candidate name"
+      ],
+      "outputs": [
+        "Client interview feedback report"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_reporting",
+      "name": "Recruitment Reporting Agent",
+      "role": "Generates comprehensive reports on recruitment metrics, pipeline status, placement rates, and compliance.",
+      "tools": [
+        "Business intelligence (BI) tools",
+        "ATS/CRM reporting features"
+      ],
+      "inputs": [
+        "All agent and human node outputs (e.g., placement status, compliance rates)"
+      ],
+      "outputs": [
+        "Recruitment metrics dashboards",
+        "Compliance reports"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_candidate_sourcer",
+      "name": "Candidate Sourcer",
+      "role": "Identifies potential candidates from various sources, including active and passive job seekers, leveraging job boards and social media.",
+      "tools": [
+        "Job boards (e.g., Indeed, LinkedIn Jobs)",
+        "LinkedIn Recruiter",
+        "Social Media Platforms (Twitter, Instagram)"
+      ],
+      "inputs": [
+        "Job descriptions",
+        "Candidate search criteria",
+        "Client requirements"
+      ],
+      "outputs": [
+        "List of potential candidates (Name, Contact Info, CV Link, Current Role, Current Company)"
+      ],
+      "depends_on": [
+        "start"
+      ]
+    },
+    {
+      "id": "agent_candidate_qualifier",
+      "name": "Candidate Qualifier",
+      "role": "Screens candidate profiles against job requirements, assesses communication patterns, and flags potential matches or issues.",
+      "tools": [
+        "AI-powered resume parsing",
+        "Natural language processing for skills matching",
+        "Internal database access"
+      ],
+      "inputs": [
+        "List of potential candidates",
+        "Job descriptions",
+        "Candidate communications (transcripts/logs)"
+      ],
+      "outputs": [
+        "Qualified candidate list",
+        "Qualification score",
+        "Red flags (e.g., poor communication)"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcer",
+        "agent_outreach_communicator"
+      ]
+    },
+    {
+      "id": "agent_outreach_communicator",
+      "name": "Outreach & Communication Handler",
+      "role": "Sends initial outreach messages, manages replies, schedules initial calls/interviews, and maintains ongoing candidate communication.",
+      "tools": [
+        "CRM with email/SMS integration",
+        "LinkedIn messaging API",
+        "Scheduling tools (e.g., Calendly)"
+      ],
+      "inputs": [
+        "Qualified candidate list",
+        "Predefined outreach templates",
+        "Scheduling availability"
+      ],
+      "outputs": [
+        "Candidate engagement status (interested, not interested, ghosted)",
+        "Scheduled interviews",
+        "Candidate queries",
+        "Request for additional info (e.g., passport for eligibility, landline)"
+      ],
+      "depends_on": [
+        "agent_candidate_qualifier"
+      ]
+    },
+    {
+      "id": "agent_cv_submission",
+      "name": "CV Submission Agent",
+      "role": "Prepares and sends candidate CVs and relevant profiles to clients for review.",
+      "tools": [
+        "Document generation",
+        "Email client",
+        "CRM"
+      ],
+      "inputs": [
+        "Qualified candidate profiles",
+        "Client contact details"
+      ],
+      "outputs": [
+        "Submitted candidate profiles to client",
+        "Submission confirmation"
+      ],
+      "depends_on": [
+        "human_candidate_interview_preparation"
+      ]
+    },
+    {
+      "id": "agent_interview_scheduler",
+      "name": "Interview Scheduler",
+      "role": "Manages the logistics of scheduling interviews between candidates and clients, sending confirmations and reminders.",
+      "tools": [
+        "Calendar integration (Google Calendar, Outlook)",
+        "Scheduling software"
+      ],
+      "inputs": [
+        "Candidate and client availability",
+        "Interview format details"
+      ],
+      "outputs": [
+        "Confirmed interview schedules",
+        "Interview reminders"
+      ],
+      "depends_on": [
+        "human_candidate_interview_preparation",
+        "human_client_feedback"
+      ]
+    },
+    {
+      "id": "agent_crm_manager",
+      "name": "CRM Manager",
+      "role": "Updates and maintains all candidate and client data within the CRM system, tracking progress, interactions, and statuses.",
+      "tools": [
+        "CRM software (e.g., Salesforce, HubSpot)"
+      ],
+      "inputs": [
+        "All outputs from other agents and human nodes"
+      ],
+      "outputs": [
+        "Consolidated candidate/client records",
+        "Updated status reports"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcer",
+        "agent_candidate_qualifier",
+        "agent_outreach_communicator",
+        "agent_cv_submission",
+        "agent_interview_scheduler",
+        "agent_referral_requestor",
+        "agent_info_gatherer_linkedin",
+        "human_resilience_manager",
+        "human_candidate_interview_preparation",
+        "human_client_meeting_or_call",
+        "human_negotiation_and_offer_management",
+        "human_candidate_start_confirmation",
+        "human_client_management"
+      ]
+    },
+    {
+      "id": "agent_referral_requestor",
+      "name": "Referral Requestor",
+      "role": "Generates and sends automated requests for referrals to placed candidates, current clients, and other relevant contacts.",
+      "tools": [
+        "CRM with automated email/messaging",
+        "Personalized templates"
+      ],
+      "inputs": [
+        "Database of past placements",
+        "Current working relationships",
+        "Referral program details"
+      ],
+      "outputs": [
+        "Referral leads"
+      ],
+      "depends_on": [
+        "human_candidate_start_confirmation",
+        "human_client_management"
+      ]
+    },
+    {
+      "id": "agent_info_gatherer_linkedin",
+      "name": "LinkedIn Information Gatherer",
+      "role": "Extracts detailed information from LinkedIn profiles and company pages to enrich candidate and client profiles.",
+      "tools": [
+        "LinkedIn Sales Navigator",
+        "Web scraping (ethical and compliant)",
+        "Data analysis tools"
+      ],
+      "inputs": [
+        "Candidate/company names"
+      ],
+      "outputs": [
+        "Detailed candidate/company insights"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcer"
+      ]
+    },
+    {
+      "id": "agent_job_info_gathering",
+      "name": "Job Information Gathering",
+      "role": "Gathers and structures detailed job requirements from client input for both permanent and temporary roles.",
+      "tools": [
+        "CRM",
+        "Email Client",
+        "Transcription Service"
+      ],
+      "inputs": [
+        "Raw client requirements (text/audio)"
+      ],
+      "outputs": [
+        "Structured job description",
+        "Key skills list",
+        "Salary range",
+        "Location preferences"
+      ]
+    },
+    {
+      "id": "agent_candidate_sourcing",
+      "name": "Candidate Sourcing",
+      "role": "Identifies potential candidates for both permanent and temporary roles based on structured job requirements.",
+      "tools": [
+        "LinkedIn Recruiter",
+        "Job Boards",
+        "ATS/CRM Database Search"
+      ],
+      "inputs": [
+        "Structured job description",
+        "Key skills list",
+        "Location preferences"
+      ],
+      "outputs": [
+        "List of potential candidate profiles (CVs, public profiles)"
+      ]
+    },
+    {
+      "id": "agent_interview_questionnaire_prep",
+      "name": "Interview Questionnaire Preparation",
+      "role": "Prepares tailored interview questions to thoroughly vet candidates, focusing on motivations and practicalities.",
+      "tools": [
+        "Document Generator",
+        "AI Question Proposer"
+      ],
+      "inputs": [
+        "Structured job description"
+      ],
+      "outputs": [
+        "Tailored interview questions (including probing questions for salary, commute, progression, benefits)"
+      ]
+    },
+    {
+      "id": "agent_candidate_assessment",
+      "name": "Candidate Assessment",
+      "role": "Analyzes candidate interview responses and CVs to evaluate skills, experience, and initial suitability for a role.",
+      "tools": [
+        "AI Sentiment Analysis",
+        "Skill Matching Algorithms"
+      ],
+      "inputs": [
+        "Candidate interview responses (audio/text)",
+        "Candidate CV"
+      ],
+      "outputs": [
+        "Candidate skill/experience score",
+        "Initial suitability rating"
+      ]
+    },
+    {
+      "id": "agent_candidate_motivation_analysis",
+      "name": "Candidate Motivation Analysis",
+      "role": "Extracts and categorizes deep-seated candidate motivations and potential deal-breakers from interview data.",
+      "tools": [
+        "AI NLP for Motivation Extraction",
+        "Data Categorization"
+      ],
+      "inputs": [
+        "Candidate interview responses",
+        "Initial suitability rating"
+      ],
+      "outputs": [
+        "Detailed candidate motivations (salary expectations, acceptance threshold, commute preferences, progression desires, team preferences, benefits)"
+      ]
+    },
+    {
+      "id": "agent_candidate_presentation",
+      "name": "Candidate Presentation Preparation",
+      "role": "Compiles comprehensive candidate briefs for client review, highlighting relevant skills and motivations.",
+      "tools": [
+        "Document Generator",
+        "Presentation Software",
+        "CRM"
+      ],
+      "inputs": [
+        "Candidate profiles",
+        "Candidate assessment",
+        "Candidate motivations"
+      ],
+      "outputs": [
+        "Client-ready candidate brief (CV, summary, vetting notes)"
+      ]
+    },
+    {
+      "id": "agent_interview_scheduling",
+      "name": "Interview Scheduling",
+      "role": "Coordinates and schedules interviews between candidates and clients.",
+      "tools": [
+        "Calendar Management Tool (e.g., Calendly)",
+        "Email Client"
+      ],
+      "inputs": [
+        "Candidate availability",
+        "Client availability",
+        "Interview type"
+      ],
+      "outputs": [
+        "Scheduled interview times",
+        "Calendar invites"
+      ]
+    },
+    {
+      "id": "agent_offer_analysis",
+      "name": "Offer Analysis",
+      "role": "Compares client offers against candidate expectations and market data to support negotiation.",
+      "tools": [
+        "Market Data Aggregator",
+        "Spreadsheet Automation"
+      ],
+      "inputs": [
+        "Client offer details",
+        "Candidate motivation analysis",
+        "Market compensation data"
+      ],
+      "outputs": [
+        "Negotiation strategy recommendations",
+        "Offer comparison report"
+      ]
+    },
+    {
+      "id": "agent_post_offer_followup",
+      "name": "Post-Offer Follow-up",
+      "role": "Automates tailored follow-up communications to candidates after an offer is extended.",
+      "tools": [
+        "Email Automation",
+        "Messaging Platform"
+      ],
+      "inputs": [
+        "Candidate status (offer extended, accepted, rejected)",
+        "Candidate motivations"
+      ],
+      "outputs": [
+        "Tailored follow-up messages"
+      ]
+    },
+    {
+      "id": "agent_contract_generation",
+      "name": "Contract Generation",
+      "role": "Generates employment contracts for temporary workers and service agreements with clients.",
+      "tools": [
+        "Contract Template Software",
+        "E-signature Platform"
+      ],
+      "inputs": [
+        "Candidate details",
+        "Client details",
+        "Hourly rate",
+        "Agency margin",
+        "Contract duration"
+      ],
+      "outputs": [
+        "Draft employment contract",
+        "Client service agreement"
+      ]
+    },
+    {
+      "id": "agent_payroll_setup",
+      "name": "Payroll Setup",
+      "role": "Sets up and manages payroll for temporary workers based on contract terms and hours worked.",
+      "tools": [
+        "Payroll Software",
+        "Time Tracking Software Integration"
+      ],
+      "inputs": [
+        "Candidate contract",
+        "Hourly rate",
+        "Hours worked"
+      ],
+      "outputs": [
+        "Payroll entries",
+        "Tax calculations"
+      ]
+    },
+    {
+      "id": "agent_invoice_generation",
+      "name": "Invoice Generation",
+      "role": "Creates and issues invoices to clients for temporary placements based on hours worked and agreed margins.",
+      "tools": [
+        "Invoicing Software",
+        "CRM"
+      ],
+      "inputs": [
+        "Client service agreement",
+        "Hours worked (from candidate time sheets)",
+        "Agency margin"
+      ],
+      "outputs": [
+        "Client invoices"
+      ]
+    },
+    {
+      "id": "agent_financing_company_interface",
+      "name": "Financing Company Interface",
+      "role": "Manages all interactions with the financing company for invoice insurance, credit checks, and payment processing.",
+      "tools": [
+        "API Integrations",
+        "Secure File Transfer"
+      ],
+      "inputs": [
+        "Client invoices",
+        "Candidate payroll data",
+        "Financing company agreement"
+      ],
+      "outputs": [
+        "Payments to candidates (processed)",
+        "Incoming funds from financing company",
+        "Client credit check reports"
+      ]
+    },
+    {
+      "id": "agent_profit_tracking",
+      "name": "Profit Tracking",
+      "role": "Monitors and reports on profit margins for all placements, analyzing revenue and costs.",
+      "tools": [
+        "Business Intelligence Dashboard",
+        "Reporting Tools"
+      ],
+      "inputs": [
+        "Invoices generated",
+        "Payments made",
+        "Payments received",
+        "Agency margins"
+      ],
+      "outputs": [
+        "Real-time profit reports",
+        "Margin analysis",
+        "Cash flow forecasts"
+      ]
+    },
+    {
+      "id": "agent_candidate_relationship_management",
+      "name": "Candidate Relationship Management",
+      "role": "Manages ongoing communication and engagement with candidates before, during, and after placement.",
+      "tools": [
+        "CRM",
+        "Automated Check-in System",
+        "Survey Tools"
+      ],
+      "inputs": [
+        "Candidate status updates",
+        "Feedback from placements",
+        "Placement details"
+      ],
+      "outputs": [
+        "Scheduled check-ins",
+        "Engagement reports"
+      ]
+    },
+    {
+      "id": "agent_client_relationship_management",
+      "name": "Client Relationship Management",
+      "role": "Manages ongoing communication and satisfaction with clients regarding recruitment services and candidate performance.",
+      "tools": [
+        "CRM",
+        "Automated Feedback Collection",
+        "Performance Reporting"
+      ],
+      "inputs": [
+        "Client feedback",
+        "Placement performance data",
+        "Invoice status"
+      ],
+      "outputs": [
+        "Scheduled check-ins",
+        "Performance reports"
+      ]
+    },
+    {
+      "id": "agent_job_ad_creation",
+      "name": "Job Advertisement Creation Agent",
+      "role": "Creates and publishes job advertisements based on client requirements to attract suitable candidates.",
+      "tools": [
+        "job_board_apis",
+        "company_website_cms"
+      ],
+      "inputs": [
+        "client_job_requirements"
+      ],
+      "outputs": [
+        "published_job_ad_links"
+      ]
+    },
+    {
+      "id": "agent_cv_screening",
+      "name": "CV Screening Agent",
+      "role": "Filters and reviews raw candidate CVs against job requirements to identify suitable profiles.",
+      "tools": [
+        "ats_keyword_matching",
+        "ai_resume_screeners"
+      ],
+      "inputs": [
+        "raw_candidate_profiles",
+        "client_job_requirements"
+      ],
+      "outputs": [
+        "shortlisted_cvs"
+      ]
+    },
+    {
+      "id": "agent_candidate_info_capture",
+      "name": "Candidate Information Capture Agent",
+      "role": "Records and structures candidate details, motivations, and feedback from human interactions.",
+      "tools": [
+        "crm_integration_api",
+        "forms_automation_tool"
+      ],
+      "inputs": [
+        "interview_notes",
+        "motivation_details"
+      ],
+      "outputs": [
+        "structured_candidate_data"
+      ]
+    },
+    {
+      "id": "agent_document_generation",
+      "name": "Document Generation Agent",
+      "role": "Generates templated documents such as interview question guides, interview confirmations, and offer letters.",
+      "tools": [
+        "template_engine",
+        "docusign_api"
+      ],
+      "inputs": [
+        "client_job_requirements",
+        "interview_schedule",
+        "offer_details"
+      ],
+      "outputs": [
+        "candidate_questionnaire",
+        "interview_confirmation_email",
+        "offer_letter"
+      ]
+    },
+    {
+      "id": "agent_email_automation",
+      "name": "Email Automation Agent",
+      "role": "Sends automated or templated emails to candidates and clients for scheduling, follow-ups, and notifications.",
+      "tools": [
+        "email_marketing_platform",
+        "crm_email_module"
+      ],
+      "inputs": [
+        "interview_confirmation_email",
+        "candidate_contact_info",
+        "client_contact_info",
+        "follow_up_schedule"
+      ],
+      "outputs": [
+        "sent_emails",
+        "email_read_receipts"
+      ]
+    },
+    {
+      "id": "agent_crm_update",
+      "name": "CRM Update Agent",
+      "role": "Updates the Customer Relationship Management system with the latest candidate and client interaction data.",
+      "tools": [
+        "crm_api_integration"
+      ],
+      "inputs": [
+        "structured_candidate_data",
+        "client_feedback",
+        "placement_status"
+      ],
+      "outputs": [
+        "updated_crm_records"
+      ]
+    },
+    {
+      "id": "agent_payment_tracking",
+      "name": "Payment Tracking Agent",
+      "role": "Monitors the status of generated invoices and tracks incoming payments.",
+      "tools": [
+        "accounting_software_api",
+        "dashboard_tool"
+      ],
+      "inputs": [
+        "generated_invoice"
+      ],
+      "outputs": [
+        "payment_status_updates"
+      ]
+    },
+    {
+      "id": "agent_crm_and_communication_automation",
+      "name": "CRM & Communication Automation Agent",
+      "role": "Automate candidate and client communication (emails, reminders, notifications), manage scheduling, track all interactions, maintain candidate and client profiles, generate basic activity logs.",
+      "tools": [
+        "CRM software (e.g., Salesforce, HubSpot)",
+        "Email automation platform",
+        "Calendar integration",
+        "ATS (Applicant Tracking System)"
+      ],
+      "inputs": [
+        "New candidate details",
+        "New client details",
+        "Interview schedules",
+        "Client feedback",
+        "Candidate preferences",
+        "Offer details",
+        "Follow-up timings",
+        "Deal status updates"
+      ],
+      "outputs": [
+        "Scheduled emails/SMS",
+        "Interview confirmations",
+        "Feedback requests",
+        "Activity reports",
+        "Updated status in CRM",
+        "Notifications for human nodes"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_financial_management_and_reporting",
+      "name": "Financial Management & Reporting Agent",
+      "role": "Handle all financial transactions, including invoicing, contractor payroll, expense tracking, tax calculations (VAT, Corporation Tax), and generation of financial reports (cash flow, budget, P&L). Facilitate invoice factoring.",
+      "tools": [
+        "Accounting software (e.g., Xero, QuickBooks)",
+        "Payroll system",
+        "Invoice factoring platform integration"
+      ],
+      "inputs": [
+        "Deal values",
+        "Expense receipts",
+        "Contractor timesheets",
+        "Tax rates",
+        "Payment terms",
+        "Initial financial setup"
+      ],
+      "outputs": [
+        "Invoices",
+        "Pay slips",
+        "Tax reports",
+        "Cash flow forecasts",
+        "Budget vs. actual reports",
+        "Profit/loss statements",
+        "EBIT/EBITDA figures",
+        "Business valuation data",
+        "Invoice status updates"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_business_registration_and_compliance",
+      "name": "Business Registration & Compliance Agent",
+      "role": "Automate the formal registration of the business (e.g., Limited Company, VAT) with relevant government bodies.",
+      "tools": [
+        "Companies House online service (API)",
+        "HMRC online service (API)"
+      ],
+      "inputs": [
+        "Business legal name",
+        "Registered address",
+        "Director details",
+        "Shareholder details",
+        "VAT registration thresholds"
+      ],
+      "outputs": [
+        "Company registration number",
+        "VAT registration number",
+        "Confirmation of legal setup"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_lead_generation",
+      "name": "Lead Generation Agent",
+      "role": "Identifies potential companies based on industry criteria.",
+      "tools": [
+        "web_scraper",
+        "industry_database"
+      ],
+      "inputs": [
+        "industry_niche_criteria"
+      ],
+      "outputs": [
+        "list_of_company_names"
+      ]
+    },
+    {
+      "id": "agent_contact_info_lookup",
+      "name": "Contact Information Lookup Agent",
+      "role": "Retrieves contact details (phone, email) for companies and specific roles.",
+      "tools": [
+        "online_search_tool",
+        "corporate_directories"
+      ],
+      "inputs": [
+        "company_name",
+        "target_role"
+      ],
+      "outputs": [
+        "company_phone_number",
+        "contact_email"
+      ]
+    },
+    {
+      "id": "agent_crm_management",
+      "name": "CRM Management Agent",
+      "role": "Records and updates lead/client information, call outcomes, and follow-up schedules.",
+      "tools": [
+        "crm_software"
+      ],
+      "inputs": [
+        "call_outcome_details",
+        "contact_details",
+        "lead_status",
+        "job_requirements",
+        "agreed_terms"
+      ],
+      "outputs": [
+        "updated_client_record",
+        "scheduled_follow_up_task"
+      ]
+    },
+    {
+      "id": "agent_email_outreach",
+      "name": "Email Outreach Agent",
+      "role": "Sends introductory, follow-up, and statement of account emails.",
+      "tools": [
+        "email_marketing_platform"
+      ],
+      "inputs": [
+        "contact_email",
+        "email_template_id",
+        "invoice_details"
+      ],
+      "outputs": [
+        "sent_email_confirmation"
+      ]
+    },
+    {
+      "id": "agent_financial_calculation_margin_analysis",
+      "name": "Financial Calculation and Margin Analysis Agent",
+      "role": "Calculates potential margins, profits, and recommends optimal charge rates based on contractor pay, overheads, and the selected payment method's tax implications.",
+      "tools": [
+        "Spreadsheet software (e.g., Excel, Google Sheets)",
+        "Custom financial modeling script"
+      ],
+      "inputs": [
+        "Contractor pay rates",
+        "Company overhead costs",
+        "Selected payment method type",
+        "Desired profit margin",
+        "Client charge rates (from negotiations)"
+      ],
+      "outputs": [
+        "Recommended charge rates",
+        "Detailed margin reports",
+        "Profit projections per placement"
+      ],
+      "depends_on": [
+        "human_strategic_business_development"
+      ]
+    },
+    {
+      "id": "agent_payroll_processing",
+      "name": "Payroll Processing Agent",
+      "role": "Manages the processing of payroll for temporary workers according to their chosen payment method (PAYE, Umbrella) or facilitates payments to Limited Companies. It handles timesheet verification and calculates gross pay.",
+      "tools": [
+        "Payroll software (e.g., Sonovate integration for financing)",
+        "Timesheet management system",
+        "Bank transfer integration"
+      ],
+      "inputs": [
+        "Approved timesheets",
+        "Contractor pay rates",
+        "Selected payment method",
+        "Contractor bank details",
+        "Tax codes (for PAYE)"
+      ],
+      "outputs": [
+        "Processed payslips/payment advices",
+        "Payment instructions to bank",
+        "Payroll reports"
+      ],
+      "depends_on": [
+        "human_payment_method_selection_onboarding"
+      ]
+    },
+    {
+      "id": "agent_tax_reporting_compliance",
+      "name": "Tax Reporting and Compliance Agent",
+      "role": "Generates and, where applicable, submits necessary tax reports and ensures compliance with tax regulations for the recruitment company's direct employees (PAYE) or tracks compliance for other contractor types.",
+      "tools": [
+        "Payroll software",
+        "Accounting software",
+        "HMRC submission portal integration"
+      ],
+      "inputs": [
+        "Payroll data from agent_payroll_processing",
+        "Company financial data",
+        "Tax regulations updates"
+      ],
+      "outputs": [
+        "Tax filings (e.g., PAYE submissions)",
+        "Compliance reports",
+        "Records for audit"
+      ],
+      "depends_on": [
+        "agent_payroll_processing"
+      ]
+    },
+    {
+      "id": "agent_invoice_management",
+      "name": "Invoice Management Agent",
+      "role": "Generates and dispatches invoices to clients for services provided by temporary workers, tracks payment statuses, and manages invoice factoring if applicable.",
+      "tools": [
+        "Accounting software",
+        "Invoice factoring service (e.g., Sonovate)"
+      ],
+      "inputs": [
+        "Approved timesheets",
+        "Agreed charge rates (from human negotiation)",
+        "Client billing details"
+      ],
+      "outputs": [
+        "Client invoices",
+        "Payment reminder notifications",
+        "Factoring requests (if using Sonovate)",
+        "Payment tracking updates"
+      ],
+      "depends_on": [
+        "agent_payroll_processing"
+      ]
+    },
+    {
+      "id": "agent_job_posting",
+      "name": "Job Posting",
+      "role": "Publishes job advertisements on relevant platforms.",
+      "tools": [
+        "ATS with job board integration",
+        "Social media scheduling tools"
+      ],
+      "inputs": [
+        "Job description",
+        "Company branding guidelines"
+      ],
+      "outputs": [
+        "Live job postings"
+      ],
+      "depends_on": [
+        "start"
+      ]
+    },
+    {
+      "id": "agent_initial_screening",
+      "name": "Initial Candidate Screening",
+      "role": "Filters candidates based on basic criteria from their applications.",
+      "tools": [
+        "ATS screening features",
+        "Keyword matching AI"
+      ],
+      "inputs": [
+        "Candidate resumes",
+        "Job requirements"
+      ],
+      "outputs": [
+        "Shortlist of potentially suitable candidates"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcing",
+        "agent_job_posting"
+      ]
+    },
+    {
+      "id": "agent_contract_tracking",
+      "name": "Contract & Rebate Tracking",
+      "role": "Monitors contract durations and calculates potential rebates or fee installments.",
+      "tools": [
+        "CRM",
+        "Contract management software",
+        "Custom spreadsheet with formulas"
+      ],
+      "inputs": [
+        "Signed client contracts",
+        "Candidate start/end dates",
+        "Agreed fee/rebate terms"
+      ],
+      "outputs": [
+        "Alerts for rebate deadlines",
+        "Installment payment schedules"
+      ],
+      "depends_on": [
+        "human_negotiation_client_terms"
+      ]
+    },
+    {
+      "id": "agent_financial_calculator",
+      "name": "Financial Calculator",
+      "role": "Computes profit margins, hourly rates, and take-home pay estimates for negotiation.",
+      "tools": [
+        "Spreadsheet software (Excel, Google Sheets)",
+        "Custom scripts"
+      ],
+      "inputs": [
+        "Client bill rate",
+        "Candidate pay rate",
+        "Tax/deduction rates",
+        "Desired profit margin",
+        "Candidate's desired take-home pay"
+      ],
+      "outputs": [
+        "Calculated profit per hour/month",
+        "Recommended candidate hourly rate",
+        "Estimated take-home pay"
+      ],
+      "depends_on": [
+        "human_negotiation_client_terms",
+        "human_negotiation_candidate_package"
+      ]
+    },
+    {
+      "id": "agent_candidate_screening_initial",
+      "name": "Initial Candidate Screener",
+      "role": "Performs an automated preliminary screening of candidate profiles for basic qualifications, keyword matching, and active job-seeking status.",
+      "tools": [
+        "Applicant Tracking System (ATS)",
+        "AI resume parsers",
+        "Keyword matching software"
+      ],
+      "inputs": [
+        "Raw candidate profiles from agent_candidate_sourcing"
+      ],
+      "outputs": [
+        "Shortlisted candidates for human review",
+        "Flags for specific qualifications/red flags",
+        "Automated initial outreach emails"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcing"
+      ]
+    },
+    {
+      "id": "agent_market_intelligence_capture",
+      "name": "Market Intelligence Capture Agent",
+      "role": "Collects, categorizes, and analyzes market data derived from candidate and client interactions, including industry trends, competitor pricing, and general hiring conditions.",
+      "tools": [
+        "CRM system",
+        "Data analytics tools",
+        "Market research databases"
+      ],
+      "inputs": [
+        "Interview notes",
+        "Client feedback",
+        "Candidate insights from human interactions"
+      ],
+      "outputs": [
+        "Market trends report",
+        "Competitor landscape analysis",
+        "Salary benchmark data"
+      ],
+      "depends_on": [
+        "human_candidate_interview_deep_dive",
+        "human_client_negotiation_meeting"
+      ]
+    },
+    {
+      "id": "agent_client_lead_qualification_initial",
+      "name": "Client Lead Qualification Agent",
+      "role": "Processes information obtained from candidates about companies actively hiring or previously interviewed by candidates to generate qualified warm client leads.",
+      "tools": [
+        "CRM system",
+        "Lead scoring algorithms"
+      ],
+      "inputs": [
+        "Candidate feedback on companies currently hiring or previously interviewed from human_candidate_interview_deep_dive"
+      ],
+      "outputs": [
+        "Prioritized list of warm client leads with contextual information"
+      ],
+      "depends_on": [
+        "human_candidate_interview_deep_dive"
+      ]
+    },
+    {
+      "id": "agent_financial_analysis",
+      "name": "Financial Analysis Agent",
+      "role": "Calculates and presents the financial impact of different recruitment fee structures and potential salary reductions, providing data for negotiation.",
+      "tools": [
+        "Spreadsheet software (e.g., Excel, Google Sheets)",
+        "Custom calculation scripts"
+      ],
+      "inputs": [
+        "Proposed fee percentages",
+        "Candidate's salary expectations",
+        "Current agency rates"
+      ],
+      "outputs": [
+        "Cost-benefit analysis of fee structures",
+        "Breakdown of potential earnings"
+      ],
+      "depends_on": [
+        "human_client_negotiation_meeting"
+      ]
+    },
+    {
+      "id": "agent_job_brief_intake",
+      "name": "Job Brief Intake Agent",
+      "role": "Processes the detailed job brief provided by the human recruiter, extracting and structuring key requirements like role title, salary, experience, and specific skills for further processing.",
+      "tools": [
+        "Natural Language Processing (NLP)",
+        "Spreadsheet software (e.g., Google Sheets, Excel)",
+        "Internal database/ATS"
+      ],
+      "inputs": [
+        "Raw job description text",
+        "Structured data from human input"
+      ],
+      "outputs": [
+        "Standardized job requirement profile"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "agent_candidate_sourcing_and_research",
+      "name": "Candidate Sourcing & Research Agent",
+      "role": "Systematically identifies potential candidates based on the standardized job requirement profile. This includes searching job boards, professional networks (e.g., LinkedIn Recruiter), and internal databases.",
+      "tools": [
+        "LinkedIn Recruiter API",
+        "Job board APIs (e.g., Indeed, Glassdoor)",
+        "ATS Candidate Database",
+        "AI-powered sourcing tools"
+      ],
+      "inputs": [
+        "Standardized job requirement profile"
+      ],
+      "outputs": [
+        "List of potential candidate profiles (raw CVs, LinkedIn links, basic contact info)"
+      ],
+      "depends_on": [
+        "agent_job_brief_intake"
+      ]
+    },
+    {
+      "id": "agent_cv_preparation",
+      "name": "CV Preparation Agent",
+      "role": "Standardizes and formats candidate CVs to a consistent template, removing identifying information (if required) and highlighting relevant skills and experience as per the job brief for client presentation.",
+      "tools": [
+        "Document formatting APIs (e.g., Google Docs API, Microsoft Word API)",
+        "AI summarization/extraction tools"
+      ],
+      "inputs": [
+        "Raw candidate CVs/profiles"
+      ],
+      "outputs": [
+        "Formatted and standardized candidate CVs/summaries"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcing_and_research"
+      ]
+    },
+    {
+      "id": "agent_communication_agent",
+      "name": "Communication Agent",
+      "role": "Manages automated initial outreach to potential candidates (e.g., email, LinkedIn messages) to gauge interest, share job details, and collect initial availability. It also handles routine client updates and information delivery.",
+      "tools": [
+        "Email automation platforms (e.g., Mailchimp, SendGrid)",
+        "LinkedIn messaging API",
+        "CRM integrated messaging"
+      ],
+      "inputs": [
+        "Candidate contact details",
+        "Job requirement summary",
+        "Client update requests"
+      ],
+      "outputs": [
+        "Candidate interest signals",
+        "Scheduled initial calls for human",
+        "Client communication logs"
+      ],
+      "depends_on": [
+        "agent_candidate_sourcing_and_research",
+        "agent_reporting_agent"
+      ]
+    },
+    {
+      "id": "agent_reporting_agent",
+      "name": "Reporting Agent",
+      "role": "Compiles and presents recruitment progress reports for internal tracking and client updates, including shortlist details, interview feedback summaries, and payment milestones. For retained searches, this includes confirmation of shortlist delivery as a payment trigger.",
+      "tools": [
+        "BI tools (e.g., Tableau, Power BI)",
+        "CRM reporting features",
+        "Automated email reports"
+      ],
+      "inputs": [
+        "Qualified candidates",
+        "Interview notes",
+        "Payment status from CRM"
+      ],
+      "outputs": [
+        "Shortlist report",
+        "Weekly progress report",
+        "Payment milestone report"
+      ],
+      "depends_on": [
+        "human_candidate_interview_and_qualification",
+        "agent_crm_management"
+      ]
+    }
+  ],
+  "human_nodes": [
+    {
+      "id": "human_initial_screening_call",
+      "description": "The recruiter conducts an initial screening call with the candidate. This involves asking open-ended questions about their reasons for leaving current/past roles, short-term and long-term career goals, and salary expectations. The aim is to gauge their motivation, passion, and genuine interest in a new opportunity or a specific role, as well as to assess cultural fit.",
+      "trigger_condition": "A screening call has been scheduled by the `agent_screening_scheduler`.",
+      "inputs_from_agents": [
+        "Raw candidate profile data",
+        "Confirmed screening call time and link"
+      ],
+      "outputs_for_agents": [
+        "Detailed call notes (including commitment level assessment, key motivators, career aspirations, salary expectations)",
+        "Candidate's preference for permanent/contract",
+        "Decision on whether to proceed with candidate"
+      ]
+    },
+    {
+      "id": "human_legal_compliance_verification",
+      "description": "For PAYE contract roles (where the recruitment agency is responsible for payroll) or for clients with specific background check requirements (even for permanent roles), the recruiter manually verifies all eligibility and compliance documents (e.g., passports, visas, industry certifications). This is a critical step to ensure the candidate is legally allowed to work and meets all required standards, mitigating legal risks.",
+      "trigger_condition": "Required eligibility documents have been collected by the `agent_document_requester` and the candidate is being considered for a PAYE contract or has specific client requirements.",
+      "inputs_from_agents": [
+        "Stored document links (from `agent_document_storage_and_tracking`)",
+        "Compliance requirements (from client/legal team)"
+      ],
+      "outputs_for_agents": [
+        "Verified compliance status (pass/fail)",
+        "Notes on any compliance issues",
+        "Documented proof of verification"
+      ]
+    },
+    {
+      "id": "human_relationship_management",
+      "description": "The recruiter engages in proactive and reactive communication to build and maintain strong relationships with candidates and clients. This includes following up on document requests, providing empathetic feedback for rejections, offering career advice, and addressing any complex or sensitive issues that arise during or after placement. This role focuses on long-term engagement and trust-building.",
+      "trigger_condition": "Ongoing throughout the recruitment cycle, or triggered by specific events such as document delays (from `agent_document_requester`), candidate concerns, or post-placement follow-ups.",
+      "inputs_from_agents": [
+        "Document submission status",
+        "Candidate status",
+        "Client feedback",
+        "Placement status"
+      ],
+      "outputs_for_agents": [
+        "Relationship notes (e.g., candidate engagement level, client satisfaction)",
+        "Feedback on recruiter performance (for `agent_reporting`)",
+        "Resolved issues"
+      ]
+    },
+    {
+      "id": "human_client_submission_approval",
+      "description": "After reviewing the candidate's updated profile and job matches, the recruiter makes the final decision on which candidates to present to the client. This involves exercising professional judgment to ensure the candidate's skills, experience, and commitment align perfectly with the client's needs and culture.",
+      "trigger_condition": "Potential job matches are identified by the `agent_job_matching_engine` and the candidate's profile is sufficiently complete and qualified.",
+      "inputs_from_agents": [
+        "Updated candidate profile (from `agent_candidate_database_update`)",
+        "List of potential job matches"
+      ],
+      "outputs_for_agents": [
+        "Approved candidate list for client submission",
+        "Specific client submission notes/feedback"
+      ]
+    },
+    {
+      "id": "human_interview_prep_debriefer",
+      "description": "The recruiter provides personalized preparation for candidates before client interviews (e.g., advising on company culture, interview structure, key questions) and conducts a thorough debrief immediately after to gather their perceptions, performance, and continued interest, and provide immediate feedback.",
+      "trigger_condition": "Client confirms an interview for a submitted candidate.",
+      "inputs_from_agents": [
+        "Client interview details",
+        "Candidate profile",
+        "Client interview feedback report (from `agent_feedback_collector`)"
+      ],
+      "outputs_for_agents": [
+        "Interview preparation notes",
+        "Candidate debrief notes (including candidate's performance, continued interest, and questions for the client)"
+      ]
+    },
+    {
+      "id": "human_offer_negotiation",
+      "description": "The recruiter expertly negotiates the terms of employment (salary, benefits, start date) between the client and the candidate, aiming for a mutually satisfactory agreement. This stage requires strong negotiation skills, understanding of market rates, and the ability to manage expectations from both sides.",
+      "trigger_condition": "Client extends a formal job offer to a candidate.",
+      "inputs_from_agents": [
+        "Job offer details",
+        "Candidate's salary expectations and motivations (from `agent_candidate_database_update`)",
+        "Client interview feedback report"
+      ],
+      "outputs_for_agents": [
+        "Finalized offer terms",
+        "Offer acceptance/rejection status",
+        "Confirmed start date",
+        "Placement type (permanent/contract)"
+      ]
+    },
+    {
+      "id": "human_resilience_manager",
+      "description": "The recruiter's primary role in managing personal stress and maintaining a positive, proactive mindset despite candidate ghosting or rejections. This involves quickly adapting, shifting focus, and initiating new sourcing efforts.",
+      "trigger_condition": "Candidate goes missing, candidate rejects offer, client rejects candidate, candidate ghosts after confirming interest.",
+      "inputs_from_agents": [
+        "agent_outreach_communicator (ghosting status)",
+        "agent_candidate_qualifier (rejection reasons)",
+        "agent_interview_scheduler (no-shows)"
+      ],
+      "outputs_for_agents": [
+        "New candidate search criteria (for agent_candidate_sourcer)",
+        "Confirmation to restart sourcing"
+      ]
+    },
+    {
+      "id": "human_candidate_interview_preparation",
+      "description": "The recruiter conducts pre-interview calls with candidates, gathers specific information (e.g., eligibility documents like passport copies, alternative contact numbers), manages candidate expectations, and confirms their genuine interest.",
+      "trigger_condition": "Candidate shows initial interest after initial outreach or client expresses interest in a candidate.",
+      "inputs_from_agents": [
+        "agent_outreach_communicator (initial interest, specific queries)",
+        "agent_cv_submission (client feedback)"
+      ],
+      "outputs_for_agents": [
+        "Confirmed candidate interest",
+        "Eligibility documents",
+        "Preferred contact methods",
+        "Confirmation for interview scheduling"
+      ]
+    },
+    {
+      "id": "human_client_meeting_or_call",
+      "description": "The recruiter engages in direct conversations with clients to understand their needs, discuss candidate profiles, gather feedback, and present replacement options when necessary.",
+      "trigger_condition": "Initial job requisition, client feedback on submitted CVs, candidate no-show/ghosting, need to present new candidates.",
+      "inputs_from_agents": [
+        "agent_cv_submission (submitted CVs)",
+        "agent_outreach_communicator (candidate status updates)",
+        "agent_candidate_qualifier (replacement candidates)"
+      ],
+      "outputs_for_agents": [
+        "Updated job requirements",
+        "Client feedback on candidates",
+        "Interview requests",
+        "Approval for new candidate submissions"
+      ]
+    },
+    {
+      "id": "human_negotiation_and_offer_management",
+      "description": "The recruiter handles salary and benefits negotiations between the candidate and the client, manages the offer process, and secures the final acceptance.",
+      "trigger_condition": "Client decides to make an offer after successful interviews.",
+      "inputs_from_agents": [
+        "agent_interview_scheduler (interview completion)",
+        "human_client_meeting_or_call (offer decision)"
+      ],
+      "outputs_for_agents": [
+        "Accepted offer",
+        "Rejected offer",
+        "Counter-offers"
+      ]
+    },
+    {
+      "id": "human_candidate_start_confirmation",
+      "description": "The recruiter confirms the candidate's start date and ensures all onboarding procedures are clear. This is a critical point to prevent last-minute drop-outs.",
+      "trigger_condition": "Candidate accepts job offer.",
+      "inputs_from_agents": [
+        "human_negotiation_and_offer_management (accepted offer)"
+      ],
+      "outputs_for_agents": [
+        "Confirmed start date"
+      ]
+    },
+    {
+      "id": "human_client_management",
+      "description": "The recruiter maintains a long-term relationship with clients, understanding their evolving needs, proactively presenting solutions, and addressing any issues. This includes regular check-ins and strategic discussions beyond immediate placements.",
+      "trigger_condition": "Successful placement, periodic client reviews, new hiring needs.",
+      "inputs_from_agents": [
+        "agent_crm_manager (client history, previous placements)"
+      ],
+      "outputs_for_agents": [
+        "New job requisitions",
+        "Feedback on service",
+        "Triggers for agent_referral_requestor"
+      ]
+    },
+    {
+      "id": "human_client_job_intake",
+      "description": "The human recruiter conducts the initial in-depth conversation with clients to capture precise job requirements, company culture, and role nuances that automation might miss. This is where active listening and relationship building occur.",
+      "trigger_condition": "A new job vacancy is identified, or a client expresses a need for recruitment services.",
+      "inputs_from_agents": [
+        "Initial client contact details"
+      ],
+      "outputs_for_agents": [
+        "Raw client job requirements (audio/text)"
+      ]
+    },
+    {
+      "id": "human_candidate_interview",
+      "description": "The human recruiter conducts personalized interviews with promising candidates. This involves asking prepared questions, probing deeper into responses, assessing soft skills, and understanding the candidate's true motivations and potential 'flakiness' for the role.",
+      "trigger_condition": "A list of potential candidates has been sourced and initial questionnaire prep is complete.",
+      "inputs_from_agents": [
+        "List of potential candidate profiles",
+        "Tailored interview questions"
+      ],
+      "outputs_for_agents": [
+        "Candidate interview responses (audio/text)",
+        "Recruiter's qualitative assessment of candidate suitability"
+      ]
+    },
+    {
+      "id": "human_client_temp_intake",
+      "description": "The human recruiter holds the initial consultation with clients for temporary staffing needs, clarifying role requirements, duration, and any specific client conditions for contract workers.",
+      "trigger_condition": "A client expresses a need for temporary or contract staff.",
+      "inputs_from_agents": [
+        "Initial client contact details"
+      ],
+      "outputs_for_agents": [
+        "Raw client temporary staffing requirements (audio/text)"
+      ]
+    },
+    {
+      "id": "human_temp_onboarding_review",
+      "description": "The human recruiter reviews the generated temporary employment contract and payment terms with the candidate, ensuring full understanding and addressing any questions before formal acceptance and placement.",
+      "trigger_condition": "A temporary candidate has been selected and a draft contract generated.",
+      "inputs_from_agents": [
+        "Draft employment contract"
+      ],
+      "outputs_for_agents": [
+        "Candidate contract acceptance status",
+        "Final payment details (if adjusted)"
+      ]
+    },
+    {
+      "id": "human_financing_company_selection",
+      "description": "The human recruiter researches and selects suitable financing companies, establishing initial contact and liaising to set up the necessary agreements for invoice factoring and payroll services.",
+      "trigger_condition": "A decision is made to utilize a financing company for temporary placements.",
+      "inputs_from_agents": [
+        "Financial requirements for temporary placements"
+      ],
+      "outputs_for_agents": [
+        "Selected financing company details",
+        "Financing company agreement terms"
+      ]
+    },
+    {
+      "id": "human_strategy_oversight",
+      "description": "The human makes high-level strategic decisions, reviews performance metrics, identifies opportunities or risks, and provides guidance for optimizing recruitment processes and business growth. This includes adjusting agency margins or shifting focus based on profit tracking and market insights.",
+      "trigger_condition": "Periodically (e.g., weekly, monthly) or upon significant changes in market conditions or internal performance metrics.",
+      "inputs_from_agents": [
+        "Profit reports",
+        "Margin analysis",
+        "Cash flow forecasts",
+        "Client/candidate engagement reports",
+        "Risk assessment reports"
+      ],
+      "outputs_for_agents": [
+        "Strategic directives (e.g., 'increase temp placements', 'adjust margins', 'focus on specialist roles')"
+      ]
+    },
+    {
+      "id": "human_client_relationship_management",
+      "description": "Engages with clients to understand their hiring needs, build rapport, and negotiate recruitment terms. This is where job orders are initially taken.",
+      "trigger_condition": "Initial client contact or new hiring need identified by existing client.",
+      "inputs_from_agents": [
+        "payment_status_updates"
+      ],
+      "outputs_for_agents": [
+        "client_job_requirements",
+        "agreed_fee_percentage"
+      ]
+    },
+    {
+      "id": "human_candidate_pitch_to_client",
+      "description": "Presents qualified candidate summaries to the client, highlighting their suitability and addressing specific client needs or concerns.",
+      "trigger_condition": "Candidates are qualified after internal interviews.",
+      "inputs_from_agents": [
+        "qualified_candidate_summary"
+      ],
+      "outputs_for_agents": [
+        "client_feedback"
+      ]
+    },
+    {
+      "id": "human_client_interview_coordination",
+      "description": "Coordinates and schedules client-candidate interviews, ensuring all parties are aware of the details and logistics.",
+      "trigger_condition": "Client expresses interest in interviewing specific candidates.",
+      "inputs_from_agents": [
+        "client_feedback"
+      ],
+      "outputs_for_agents": [
+        "interview_schedule"
+      ]
+    },
+    {
+      "id": "human_candidate_follow_up",
+      "description": "Maintains regular personal contact with candidates throughout the process, providing updates, answering questions, and keeping them engaged.",
+      "trigger_condition": "After any interaction (CV sent, interview scheduled, interview completed) or at scheduled intervals.",
+      "inputs_from_agents": [
+        "sent_emails",
+        "email_read_receipts"
+      ],
+      "outputs_for_agents": [
+        "candidate_status_updates"
+      ]
+    },
+    {
+      "id": "human_candidate_closing",
+      "name": "Candidate Closing Node",
+      "description": "Persuades the candidate to accept the final offer by emphasizing how the role aligns with their deep motivations and career goals, using insights gathered earlier.",
+      "trigger_condition": "Final offer presented or candidate is hesitant.",
+      "inputs_from_agents": [
+        "offer_details",
+        "motivation_details",
+        "final_salary_agreement"
+      ],
+      "outputs_for_agents": [
+        "placement_status"
+      ]
+    },
+    {
+      "id": "human_troubleshooting",
+      "description": "Addresses issues like candidate disinterest, interview no-shows, or unsuccessful placements by communicating transparently with both client and candidate and determining next steps.",
+      "trigger_condition": "Candidate becomes disengaged, misses an interview, or placement falls through.",
+      "inputs_from_agents": [
+        "candidate_status_updates",
+        "client_feedback"
+      ],
+      "outputs_for_agents": [
+        "new_sourcing_request",
+        "client_relationship_update"
+      ]
+    },
+    {
+      "id": "human_strategic_business_setup_and_planning",
+      "description": "This node is responsible for the foundational strategic decisions of the business. It involves defining the overall vision, mission, and long-term goals. It also determines the core business model (e.g., focus on permanent, contract, or a mix), designs the organizational structure, and sets initial financial targets. This is where the 'strawman' business plan is created. It also handles the legal aspects of allocating shares and determining dividend policy.",
+      "trigger_condition": "A new business is being started or a significant strategic pivot is required.",
+      "inputs_from_agents": [],
+      "outputs_for_agents": [
+        "Business legal name",
+        "Director/shareholder details",
+        "Business model parameters",
+        "Initial financial targets (for agent setup)",
+        "Strategic goals",
+        "Share allocation details"
+      ]
+    },
+    {
+      "id": "human_client_candidate_relationship_management_and_negotiation",
+      "description": "This node is the core of the recruitment consultancy's daily operations. It involves building and maintaining relationships with both clients and candidates. Key activities include candidate interview preparation, assessing candidate's true motivations and alternative offers (trial closing), educating clients on market realities and candidate expectations, and skillfully negotiating offers and counter-offers. It also includes personal touches like congratulatory calls and inviting new hires to company events to ensure a smooth transition and strong rapport.",
+      "trigger_condition": "Candidate is ready for an interview, client expresses interest in a candidate, an offer is extended, a counter-offer is received.",
+      "inputs_from_agents": [
+        "Scheduled emails/SMS",
+        "Interview confirmations",
+        "Feedback requests",
+        "Activity reports",
+        "Updated status in CRM",
+        "Notifications for human nodes",
+        "Salary benchmark data",
+        "Fee structures"
+      ],
+      "outputs_for_agents": [
+        "Updated candidate status",
+        "Client offer instructions (salary, benefits)",
+        "Negotiation outcomes",
+        "Deal closure notifications for billing"
+      ]
+    },
+    {
+      "id": "human_strategic_review_and_adjustment",
+      "description": "This node performs regular oversight and strategic steering of the business. It analyzes the financial reports and performance data provided by agents, evaluates adherence to the business plan, and identifies areas for improvement or necessary adjustments to strategy (e.g., adjusting revenue targets, optimizing costs, refining the business model). It makes decisions on reinvestment of profits for growth, or dividend distribution based on the agreed financial strategy. It also involves making high-level decisions regarding scaling the business or managing significant financial events like securing invoice factoring.",
+      "trigger_condition": "Monthly, quarterly, or annual reporting cycles; significant deviations from financial forecasts; major market changes; decisions around investment or financial restructuring.",
+      "inputs_from_agents": [
+        "Invoices",
+        "Pay slips",
+        "Tax reports",
+        "Cash flow forecasts",
+        "Budget vs. actual reports",
+        "Profit/loss statements",
+        "EBIT/EBITDA figures",
+        "Business valuation data",
+        "Invoice status updates",
+        "Market trends",
+        "Client retention data"
+      ],
+      "outputs_for_agents": [
+        "Revised financial targets",
+        "Updated budget parameters",
+        "Instructions for activating/adjusting invoice factoring",
+        "Dividend payment authorizations"
+      ]
+    },
+    {
+      "id": "human_outbound_caller",
+      "description": "Makes initial cold calls, asks for the relevant contact person, handles initial objections, adapts tone, and attempts to get direct contact information (email, direct line).",
+      "trigger_condition": "When a new company with basic contact info is available from agent_contact_info_lookup.",
+      "inputs_from_agents": [
+        "company_name",
+        "company_phone_number"
+      ],
+      "outputs_for_agents": [
+        "call_outcome_details",
+        "new_contact_email",
+        "new_contact_phone",
+        "lead_status"
+      ]
+    },
+    {
+      "id": "human_negotiation_and_details_gathering",
+      "description": "Conducts detailed conversations with qualified leads, gathers specific job requirements (e.g., machine types, shifts, programming experience), discusses and negotiates placement fees, and agrees on start dates.",
+      "trigger_condition": "When a lead is identified as potentially serious and willing to engage further (e.g., email response, direct line obtained).",
+      "inputs_from_agents": [
+        "company_background_info",
+        "lead_status",
+        "previous_communication_details"
+      ],
+      "outputs_for_agents": [
+        "detailed_job_specs",
+        "agreed_fee_structure",
+        "confirmed_start_dates",
+        "new_candidate_profile_needs"
+      ]
+    },
+    {
+      "id": "human_credit_control_follow_up",
+      "description": "Reviews overdue invoices, analyzes client payment history, and decides on the appropriate next steps for debt collection (e.g., send a more firm email, make a direct call, initiate debt recovery through a specialized company).",
+      "trigger_condition": "When an invoice is significantly overdue (e.g., beyond the initial statement of account reminder from agent_email_outreach).",
+      "inputs_from_agents": [
+        "overdue_invoice_status",
+        "client_payment_history",
+        "previous_email_logs"
+      ],
+      "outputs_for_agents": [
+        "credit_control_action_taken",
+        "updated_debt_status"
+      ]
+    },
+    {
+      "id": "human_strategic_business_development",
+      "description": "Sets the overall business strategy, identifies target markets, defines service offerings, and makes high-level decisions regarding financial partnerships and resource allocation. This involves continuous learning and adapting the business model based on performance and market conditions.",
+      "trigger_condition": "Initial company setup, periodic business reviews, strategic shifts, or as needed for business growth.",
+      "inputs_from_agents": [
+        "Profit projections (from agent_financial_calculation_margin_analysis)",
+        "Market trends (implicit from other agents/research)"
+      ],
+      "outputs_for_agents": [
+        "Strategic directives (e.g., market focus, new service lines)",
+        "Parameters for financial calculations",
+        "Partnership agreements (e.g., with Sonovate)"
+      ]
+    },
+    {
+      "id": "human_rate_negotiation_client_communication",
+      "description": "Engages directly with clients to negotiate charge rates and payment terms, and with contractors to agree on pay rates. Handles all direct client and contractor communications, including sales pitches and relationship management. Also addresses client queries about invoices or service delivery.",
+      "trigger_condition": "New job orders, client acquisition, contractor placement, client inquiries, or invoice disputes.",
+      "inputs_from_agents": [
+        "Recommended charge rates (from agent_financial_calculation_margin_analysis)",
+        "Client invoices (from agent_invoice_management)"
+      ],
+      "outputs_for_agents": [
+        "Agreed charge rates for clients",
+        "Agreed pay rates for contractors",
+        "Confirmed payment terms",
+        "Job requirements for candidate sourcing"
+      ]
+    },
+    {
+      "id": "human_payment_method_selection_onboarding",
+      "description": "After a successful client-contractor match, guides the contractor through the available payment methods (Limited Company, PAYE, Umbrella Company), explains the implications of each, helps them choose, and oversees the onboarding process for the selected method. This includes collecting necessary documentation.",
+      "trigger_condition": "Successful candidate placement with a client.",
+      "inputs_from_agents": [
+        "List of potential candidate CVs/profiles (from agent_candidate_sourcing)"
+      ],
+      "outputs_for_agents": [
+        "Selected payment method for each contractor",
+        "Contractor's company details (if Limited Company)",
+        "Confirmed start dates and hours for payroll processing"
+      ]
+    },
+    {
+      "id": "human_dispute_resolution_course_consultation",
+      "description": "Resolves complex issues or disputes related to payroll, taxes, or invoices that cannot be handled by automated systems. This node actively refers back to the course material for theoretical guidance, best practices, and solutions to avoid future recurrences.",
+      "trigger_condition": "Alerts from agents regarding unresolved financial discrepancies, contractor/client complaints, or complex tax queries.",
+      "inputs_from_agents": [
+        "Payroll reports (from agent_payroll_processing)",
+        "Tax filings/reports (from agent_tax_reporting_compliance)",
+        "Payment tracking updates (from agent_invoice_management)"
+      ],
+      "outputs_for_agents": [
+        "Corrected data for agents",
+        "Instructions for reprocessing (if needed)",
+        "Feedback for process improvement"
+      ]
+    },
+    {
+      "id": "human_initial_client_brief",
+      "description": "Engages with the client to understand their needs, the role, and their preference for perm, temp, or temp-to-perm. This is the start of the recruitment process from the client side.",
+      "trigger_condition": "A new client inquiry or job requirement.",
+      "inputs_from_agents": [],
+      "outputs_for_agents": [
+        "Detailed job description",
+        "Client's initial preferences for contract type (perm, temp, temp-to-perm)",
+        "Budget",
+        "Company culture"
+      ]
+    },
+    {
+      "id": "human_negotiation_client_terms",
+      "description": "Discusses and agrees on the specifics of the temp-to-perm arrangement or permanent placement fee structure with the client. This involves explaining the legal aspects (12-week rule), potential fee spreading, or upfront permanent fees/rebates.",
+      "trigger_condition": "Client expresses interest in a candidate or role, and contract terms need to be finalized.",
+      "inputs_from_agents": [
+        "Financial calculations (potential profit margins for different scenarios, rebate structures from agent_contract_tracking)",
+        "Legal guidelines (implied knowledge)"
+      ],
+      "outputs_for_agents": [
+        "Agreed client contract terms",
+        "Client bill rate",
+        "Payment schedule",
+        "Rebate period details"
+      ]
+    },
+    {
+      "id": "human_negotiation_candidate_package",
+      "description": "Discusses salary expectations, benefits, and the overall package with the candidate. Aims to balance candidate satisfaction with agency profitability, using strategies like asking for take-home pay.",
+      "trigger_condition": "Candidate is strong for a role, and client is interested.",
+      "inputs_from_agents": [
+        "Candidate's stated salary expectation (from human_candidate_interview)",
+        "Financial calculations (take-home pay estimates, acceptable hourly rates from agent_financial_calculator)"
+      ],
+      "outputs_for_agents": [
+        "Agreed candidate pay rate",
+        "Agreed overtime rates",
+        "Preferred payment method (umbrella/limited company)"
+      ]
+    },
+    {
+      "id": "human_timesheet_approval",
+      "description": "Reviews and approves timesheets submitted by temporary contractors before payroll processing.",
+      "trigger_condition": "Temporary contractor submits timesheet.",
+      "inputs_from_agents": [
+        "Submitted timesheets from temporary contractors"
+      ],
+      "outputs_for_agents": [
+        "Approved timesheet",
+        "Confirmed hours worked"
+      ]
+    },
+    {
+      "id": "human_candidate_interview_deep_dive",
+      "description": "Conducts detailed interviews with shortlisted candidates to deeply understand their skills, experience, career goals, and underlying motivations. Crucially, this involves extracting market intelligence such as companies actively hiring, reasons for candidate dissatisfaction with previous roles, and current salary expectations in the market.",
+      "trigger_condition": "After agent_candidate_screening_initial has provided a list of promising candidates.",
+      "inputs_from_agents": [
+        "Shortlisted candidate profiles",
+        "Automated initial outreach responses"
+      ],
+      "outputs_for_agents": [
+        "Detailed interview notes",
+        "Candidate insights (motivations, market feedback)",
+        "Identified potential client leads"
+      ]
+    },
+    {
+      "id": "human_client_outreach_warm",
+      "description": "Engages directly with warm client leads (generated from candidate intelligence) to initiate conversations, confirm hiring needs, and present suitable candidates. This is a personalized, value-driven outreach to leverage existing connections.",
+      "trigger_condition": "agent_client_lead_qualification_initial identifies a high-priority warm lead.",
+      "inputs_from_agents": [
+        "Prioritized client leads with contextual information"
+      ],
+      "outputs_for_agents": [
+        "Documented client hiring needs",
+        "Scheduled client meetings",
+        "Indication of client interest"
+      ]
+    },
+    {
+      "id": "human_client_negotiation_meeting",
+      "description": "Leads client meetings to discuss recruitment fees, service agreements, and handle objections such as 'it's too expensive'. The human must actively listen to uncover the client's true concerns (e.g., unhappiness with current service, not just price) and craft tailored proposals, potentially offering exclusivity for a reduced fee.",
+      "trigger_condition": "Client expresses interest but raises pricing concerns, or negotiation is initiated following client outreach.",
+      "inputs_from_agents": [
+        "Competitive pricing from agent_market_intelligence_capture",
+        "Financial benefit calculations from agent_financial_analysis"
+      ],
+      "outputs_for_agents": [
+        "Agreed contract terms",
+        "Detailed job briefs",
+        "Client feedback on pricing/services",
+        "Negotiation outcome"
+      ]
+    },
+    {
+      "id": "human_strategic_decision_making",
+      "description": "Analyzes comprehensive market intelligence, client feedback, and the outcomes of negotiations to refine the recruitment agency's overall business strategy, pricing models, and service offerings. This includes making strategic tactical adjustments like offering exclusivity for a slightly reduced fee to gain a competitive edge.",
+      "trigger_condition": "Regular business reviews, or when recurring client objections or market shifts necessitate a strategic adjustment.",
+      "inputs_from_agents": [
+        "Market trends report from agent_market_intelligence_capture",
+        "Negotiation outcomes from human_client_negotiation_meeting"
+      ],
+      "outputs_for_agents": [
+        "Updated pricing guidelines",
+        "New negotiation scripts",
+        "Strategic adjustments to service offerings"
+      ]
+    },
+    {
+      "id": "human_candidate_relationship_nurturing",
+      "description": "Provides personalized support, career advice, and regular check-ins with high-caliber candidates. This maintains rapport and trust, even when no immediate job is available, and can lead to future placements or referrals for new client leads.",
+      "trigger_condition": "Automated reminders from agent_candidate_relationship_management, or human initiative for key candidates.",
+      "inputs_from_agents": [
+        "Reminders for follow-up",
+        "Candidate status updates"
+      ],
+      "outputs_for_agents": [
+        "Updated candidate engagement notes",
+        "Potential new leads identified during conversation"
+      ]
+    },
+    {
+      "id": "human_client_consultation",
+      "description": "The human recruiter takes the initial, in-depth job brief, understands the client's strategic hiring needs, company culture, and the urgency/difficulty of the role. Crucially, they strategize and *pitch the retained recruitment model*, explaining its benefits (exclusivity, dedicated effort, financial security for recruiter, scheduled payments for client, higher fill rate for critical/hard-to-fill roles). They negotiate terms and secure the initial upfront payment for retained assignments. They also review generated reports and make high-level decisions regarding strategy and next steps.",
+      "trigger_condition": "Client expresses a new hiring need, or agent_reporting_agent provides a progress report needing review.",
+      "inputs_from_agents": [
+        "Standardized job requirement profile (for review before pitch)",
+        "Recruitment reports (e.g., market analysis for pitching retainer benefits)",
+        "Shortlist report (for review and approval)",
+        "Payment milestone report"
+      ],
+      "outputs_for_agents": [
+        "Detailed job brief (initial)",
+        "Retainer agreement confirmation",
+        "Upfront payment confirmation (if retained)",
+        "Strategic decisions (e.g., approve shortlist, offer terms)",
+        "Interview requests (for qualified candidates)"
+      ]
+    },
+    {
+      "id": "human_candidate_interview_and_qualification",
+      "description": "The human recruiter conducts thorough interviews with sourced candidates, going beyond CVs to assess critical technical competencies, soft skills, cultural fit, and genuine motivation for the role and the client company (especially for complex or senior roles). They validate experience, clarify aspirations, perform competency reviews, and present the client's opportunity compellingly to the candidate. They then select the best 3-4 candidates to form the shortlist, writing comprehensive notes and summaries.",
+      "trigger_condition": "Agent_communication_agent has identified interested candidates and scheduled initial calls.",
+      "inputs_from_agents": [
+        "List of potential candidate profiles",
+        "Formatted and standardized candidate CVs/summaries",
+        "Candidate interest signals/initial call notes"
+      ],
+      "outputs_for_agents": [
+        "Qualified candidate profiles",
+        "Detailed interview notes",
+        "Shortlist of approved candidates",
+        "Recommendations for client interviews"
+      ]
+    },
+    {
+      "id": "human_contract_finalization",
+      "description": "The human recruiter ensures that the successful candidate's employment contract with the client is signed, confirming the start date. They then monitor the candidate through their notice period (1-3 months) to mitigate any last-minute issues or counter-offers, ensuring a smooth transition into the new role. This stage ultimately confirms the final placement and triggers the final fee payment.",
+      "trigger_condition": "Candidate verbally accepts the offer and the accepted offer details are finalized.",
+      "inputs_from_agents": [
+        "Accepted offer details",
+        "Draft employment contract (from client)"
+      ],
+      "outputs_for_agents": [
+        "Signed employment contract confirmation",
+        "Confirmed start date for candidate",
+        "Final placement confirmation (upon candidate start)"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "start",
+      "to": "agent_candidate_data_capture"
+    },
+    {
+      "from": "agent_candidate_data_capture",
+      "to": "agent_screening_scheduler"
+    },
+    {
+      "from": "agent_screening_scheduler",
+      "to": "human_initial_screening_call"
+    },
+    {
+      "from": "human_initial_screening_call",
+      "to": "agent_candidate_database_update"
+    },
+    {
+      "from": "agent_candidate_database_update",
+      "to": "agent_document_requester"
+    },
+    {
+      "from": "agent_document_requester",
+      "to": "agent_document_storage_and_tracking"
+    },
+    {
+      "from": "agent_document_requester",
+      "to": "human_relationship_management",
+      "condition": "if documents are delayed or incomplete"
+    },
+    {
+      "from": "agent_document_storage_and_tracking",
+      "to": "human_legal_compliance_verification",
+      "condition": "if PAYE contract or specific client requirement"
+    },
+    {
+      "from": "human_legal_compliance_verification",
+      "to": "agent_candidate_database_update"
+    },
+    {
+      "from": "agent_candidate_database_update",
+      "to": "agent_job_matching_engine"
+    },
+    {
+      "from": "agent_job_matching_engine",
+      "to": "human_client_submission_approval"
+    },
+    {
+      "from": "human_client_submission_approval",
+      "to": "agent_application_preparer"
+    },
+    {
+      "from": "agent_application_preparer",
+      "to": "human_interview_prep_debriefer",
+      "condition": "client requests interview"
+    },
+    {
+      "from": "human_interview_prep_debriefer",
+      "to": "agent_feedback_collector"
+    },
+    {
+      "from": "agent_feedback_collector",
+      "to": "human_offer_negotiation",
+      "condition": "client extends offer"
+    },
+    {
+      "from": "human_offer_negotiation",
+      "to": "agent_candidate_database_update",
+      "condition": "offer accepted or rejected"
+    },
+    {
+      "from": "agent_candidate_database_update",
+      "to": "agent_reporting"
+    },
+    {
+      "from": "human_offer_negotiation",
+      "to": "human_relationship_management",
+      "condition": "for post-placement support or offer rejected"
+    },
+    {
+      "from": "human_relationship_management",
+      "to": "agent_candidate_database_update"
+    },
+    {
+      "from": "start",
+      "to": "agent_candidate_sourcer"
+    },
+    {
+      "from": "agent_candidate_sourcer",
+      "to": "agent_candidate_qualifier"
+    },
+    {
+      "from": "agent_candidate_sourcer",
+      "to": "agent_info_gatherer_linkedin"
+    },
+    {
+      "from": "agent_info_gatherer_linkedin",
+      "to": "agent_candidate_qualifier"
+    },
+    {
+      "from": "agent_candidate_qualifier",
+      "to": "agent_outreach_communicator"
+    },
+    {
+      "from": "agent_outreach_communicator",
+      "to": "human_candidate_interview_preparation",
+      "condition": "candidate shows initial interest"
+    },
+    {
+      "from": "human_candidate_interview_preparation",
+      "to": "agent_cv_submission",
+      "condition": "candidate confirms interest"
+    },
+    {
+      "from": "agent_cv_submission",
+      "to": "human_client_meeting_or_call"
+    },
+    {
+      "from": "human_client_meeting_or_call",
+      "to": "agent_interview_scheduler",
+      "condition": "client requests interview"
+    },
+    {
+      "from": "agent_interview_scheduler",
+      "to": "human_client_meeting_or_call",
+      "condition": "interview completed"
+    },
+    {
+      "from": "human_client_meeting_or_call",
+      "to": "human_negotiation_and_offer_management",
+      "condition": "client decides to make offer"
+    },
+    {
+      "from": "human_negotiation_and_offer_management",
+      "to": "human_candidate_start_confirmation",
+      "condition": "offer accepted"
+    },
+    {
+      "from": "human_candidate_start_confirmation",
+      "to": "human_client_management",
+      "condition": "candidate confirmed start"
+    },
+    {
+      "from": "human_client_management",
+      "to": "agent_referral_requestor"
+    },
+    {
+      "from": "human_resilience_manager",
+      "to": "agent_candidate_sourcer",
+      "condition": "need new candidates"
+    },
+    {
+      "from": "agent_outreach_communicator",
+      "to": "human_resilience_manager",
+      "condition": "candidate ghosted"
+    },
+    {
+      "from": "agent_candidate_qualifier",
+      "to": "human_resilience_manager",
+      "condition": "candidate rejected"
+    },
+    {
+      "from": "agent_interview_scheduler",
+      "to": "human_resilience_manager",
+      "condition": "candidate no-show"
+    },
+    {
+      "from": "agent_crm_manager",
+      "to": "human_client_management"
+    },
+    {
+      "from": "agent_crm_manager",
+      "to": "human_client_meeting_or_call"
+    },
+    {
+      "from": "agent_crm_manager",
+      "to": "human_candidate_interview_preparation"
+    },
+    {
+      "from": "agent_crm_manager",
+      "to": "human_negotiation_and_offer_management"
+    },
+    {
+      "from": "agent_crm_manager",
+      "to": "human_candidate_start_confirmation"
+    },
+    {
+      "from": "agent_referral_requestor",
+      "to": "agent_candidate_sourcer",
+      "condition": "new referral leads"
+    },
+    {
+      "from": "start",
+      "to": "human_client_job_intake"
+    },
+    {
+      "from": "human_client_job_intake",
+      "to": "agent_job_info_gathering"
+    },
+    {
+      "from": "agent_job_info_gathering",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "agent_interview_questionnaire_prep"
+    },
+    {
+      "from": "agent_interview_questionnaire_prep",
+      "to": "human_candidate_interview"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "agent_candidate_assessment"
+    },
+    {
+      "from": "agent_candidate_assessment",
+      "to": "agent_candidate_motivation_analysis"
+    },
+    {
+      "from": "agent_candidate_motivation_analysis",
+      "to": "agent_candidate_presentation"
+    },
+    {
+      "from": "agent_candidate_presentation",
+      "to": "agent_interview_scheduling"
+    },
+    {
+      "from": "agent_interview_scheduling",
+      "to": "human_offer_negotiation"
+    },
+    {
+      "from": "human_offer_negotiation",
+      "to": "agent_offer_analysis"
+    },
+    {
+      "from": "agent_offer_analysis",
+      "to": "agent_post_offer_followup"
+    },
+    {
+      "from": "agent_post_offer_followup",
+      "to": "agent_candidate_relationship_management"
+    },
+    {
+      "from": "human_client_job_intake",
+      "to": "agent_client_relationship_management"
+    },
+    {
+      "from": "start",
+      "to": "human_client_temp_intake"
+    },
+    {
+      "from": "human_client_temp_intake",
+      "to": "agent_job_info_gathering"
+    },
+    {
+      "from": "agent_job_info_gathering",
+      "to": "agent_candidate_sourcing",
+      "condition": "for_temp_roles"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "agent_interview_questionnaire_prep",
+      "condition": "for_temp_roles"
+    },
+    {
+      "from": "agent_interview_questionnaire_prep",
+      "to": "human_candidate_interview",
+      "condition": "for_temp_roles"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "agent_candidate_assessment",
+      "condition": "for_temp_roles"
+    },
+    {
+      "from": "agent_candidate_assessment",
+      "to": "agent_contract_generation"
+    },
+    {
+      "from": "agent_contract_generation",
+      "to": "human_temp_onboarding_review"
+    },
+    {
+      "from": "human_temp_onboarding_review",
+      "to": "human_financing_company_selection"
+    },
+    {
+      "from": "human_financing_company_selection",
+      "to": "agent_financing_company_interface"
+    },
+    {
+      "from": "human_temp_onboarding_review",
+      "to": "agent_payroll_setup"
+    },
+    {
+      "from": "agent_payroll_setup",
+      "to": "agent_invoice_generation"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "agent_financing_company_interface"
+    },
+    {
+      "from": "agent_financing_company_interface",
+      "to": "agent_profit_tracking"
+    },
+    {
+      "from": "agent_profit_tracking",
+      "to": "human_strategy_oversight"
+    },
+    {
+      "from": "agent_financing_company_interface",
+      "to": "agent_candidate_relationship_management"
+    },
+    {
+      "from": "agent_financing_company_interface",
+      "to": "agent_client_relationship_management"
+    },
+    {
+      "from": "agent_candidate_relationship_management",
+      "to": "human_strategy_oversight"
+    },
+    {
+      "from": "agent_client_relationship_management",
+      "to": "human_strategy_oversight"
+    },
+    {
+      "from": "start",
+      "to": "human_client_relationship_management"
+    },
+    {
+      "from": "human_client_relationship_management",
+      "to": "agent_job_ad_creation"
+    },
+    {
+      "from": "human_client_relationship_management",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_job_ad_creation",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "agent_cv_screening"
+    },
+    {
+      "from": "agent_cv_screening",
+      "to": "human_candidate_interview"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "agent_candidate_info_capture"
+    },
+    {
+      "from": "agent_candidate_info_capture",
+      "to": "agent_crm_update"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "human_candidate_pitch_to_client"
+    },
+    {
+      "from": "human_candidate_pitch_to_client",
+      "to": "human_client_feedback_review"
+    },
+    {
+      "from": "human_client_feedback_review",
+      "to": "human_client_interview_coordination",
+      "condition": "if client expresses interest in candidates"
+    },
+    {
+      "from": "human_client_interview_coordination",
+      "to": "agent_document_generation"
+    },
+    {
+      "from": "agent_document_generation",
+      "to": "agent_email_automation",
+      "condition": "for interview confirmations"
+    },
+    {
+      "from": "agent_email_automation",
+      "to": "human_candidate_follow_up"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "human_troubleshooting",
+      "condition": "if candidate is unsuitable or uninterested"
+    },
+    {
+      "from": "human_client_interview_coordination",
+      "to": "human_troubleshooting",
+      "condition": "if interviews fall through"
+    },
+    {
+      "from": "human_troubleshooting",
+      "to": "agent_candidate_sourcing",
+      "condition": "new sourcing needed"
+    },
+    {
+      "from": "human_troubleshooting",
+      "to": "human_client_relationship_management",
+      "condition": "to update client on issues"
+    },
+    {
+      "from": "human_client_interview_coordination",
+      "to": "human_offer_negotiation",
+      "condition": "client decides to make an offer"
+    },
+    {
+      "from": "human_offer_negotiation",
+      "to": "human_candidate_closing"
+    },
+    {
+      "from": "human_candidate_closing",
+      "to": "agent_crm_update",
+      "condition": "placement successful"
+    },
+    {
+      "from": "human_candidate_closing",
+      "to": "agent_invoice_generation",
+      "condition": "placement successful"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "agent_payment_tracking"
+    },
+    {
+      "from": "agent_payment_tracking",
+      "to": "human_client_relationship_management",
+      "condition": "payment received"
+    },
+    {
+      "from": "human_candidate_closing",
+      "to": "human_troubleshooting",
+      "condition": "if candidate rejects offer"
+    },
+    {
+      "from": "start",
+      "to": "human_strategic_business_setup_and_planning"
+    },
+    {
+      "from": "human_strategic_business_setup_and_planning",
+      "to": "agent_business_registration_and_compliance"
+    },
+    {
+      "from": "human_strategic_business_setup_and_planning",
+      "to": "agent_financial_management_and_reporting"
+    },
+    {
+      "from": "human_strategic_business_setup_and_planning",
+      "to": "agent_crm_and_communication_automation"
+    },
+    {
+      "from": "agent_business_registration_and_compliance",
+      "to": "agent_financial_management_and_reporting"
+    },
+    {
+      "from": "agent_financial_management_and_reporting",
+      "to": "human_strategic_review_and_adjustment",
+      "condition": "on scheduled report generation or critical alert"
+    },
+    {
+      "from": "agent_crm_and_communication_automation",
+      "to": "human_client_candidate_relationship_management_and_negotiation",
+      "condition": "on new interaction or reminder"
+    },
+    {
+      "from": "human_client_candidate_relationship_management_and_negotiation",
+      "to": "agent_crm_and_communication_automation"
+    },
+    {
+      "from": "human_client_candidate_relationship_management_and_negotiation",
+      "to": "agent_financial_management_and_reporting",
+      "condition": "on deal closure or financial update"
+    },
+    {
+      "from": "human_strategic_review_and_adjustment",
+      "to": "agent_financial_management_and_reporting",
+      "condition": "on budget/investment changes"
+    },
+    {
+      "from": "human_strategic_review_and_adjustment",
+      "to": "human_client_candidate_relationship_management_and_negotiation",
+      "condition": "on strategic adjustments impacting client/candidate relations"
+    },
+    {
+      "from": "start",
+      "to": "agent_lead_generation"
+    },
+    {
+      "from": "agent_lead_generation",
+      "to": "agent_contact_info_lookup"
+    },
+    {
+      "from": "agent_contact_info_lookup",
+      "to": "human_outbound_caller"
+    },
+    {
+      "from": "human_outbound_caller",
+      "to": "agent_crm_management",
+      "condition": "Always, to record call outcome"
+    },
+    {
+      "from": "human_outbound_caller",
+      "to": "agent_email_outreach",
+      "condition": "If email address is obtained for intro/follow-up"
+    },
+    {
+      "from": "human_outbound_caller",
+      "to": "human_negotiation_and_details_gathering",
+      "condition": "If lead is qualified and interested"
+    },
+    {
+      "from": "agent_email_outreach",
+      "to": "human_negotiation_and_details_gathering",
+      "condition": "If email receives positive response"
+    },
+    {
+      "from": "human_negotiation_and_details_gathering",
+      "to": "agent_crm_management",
+      "condition": "Always, to update client info and job needs"
+    },
+    {
+      "from": "human_negotiation_and_details_gathering",
+      "to": "agent_invoice_generation",
+      "condition": "When a placement is made"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "agent_email_outreach",
+      "condition": "To send invoice and statement of account"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "human_credit_control_follow_up",
+      "condition": "If invoice becomes overdue"
+    },
+    {
+      "from": "human_credit_control_follow_up",
+      "to": "agent_email_outreach",
+      "condition": "To send further reminder emails"
+    },
+    {
+      "from": "human_credit_control_follow_up",
+      "to": "agent_crm_management",
+      "condition": "To update debt status and actions"
+    },
+    {
+      "from": "start",
+      "to": "human_strategic_business_development"
+    },
+    {
+      "from": "human_strategic_business_development",
+      "to": "agent_financial_calculation_margin_analysis"
+    },
+    {
+      "from": "agent_financial_calculation_margin_analysis",
+      "to": "human_rate_negotiation_client_communication"
+    },
+    {
+      "from": "human_rate_negotiation_client_communication",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "human_payment_method_selection_onboarding"
+    },
+    {
+      "from": "human_payment_method_selection_onboarding",
+      "to": "agent_payroll_processing"
+    },
+    {
+      "from": "agent_payroll_processing",
+      "to": "agent_tax_reporting_compliance"
+    },
+    {
+      "from": "agent_payroll_processing",
+      "to": "agent_invoice_management"
+    },
+    {
+      "from": "agent_invoice_management",
+      "to": "human_rate_negotiation_client_communication",
+      "condition": "for payment tracking and client communication"
+    },
+    {
+      "from": "agent_tax_reporting_compliance",
+      "to": "human_dispute_resolution_course_consultation",
+      "condition": "if tax issues arise"
+    },
+    {
+      "from": "agent_invoice_management",
+      "to": "human_dispute_resolution_course_consultation",
+      "condition": "if billing disputes occur"
+    },
+    {
+      "from": "human_dispute_resolution_course_consultation",
+      "to": "human_strategic_business_development",
+      "condition": "for continuous improvement and strategic adjustments"
+    },
+    {
+      "from": "start",
+      "to": "human_initial_client_brief"
+    },
+    {
+      "from": "human_initial_client_brief",
+      "to": "agent_job_posting"
+    },
+    {
+      "from": "human_initial_client_brief",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_job_posting",
+      "to": "agent_initial_screening"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "agent_initial_screening"
+    },
+    {
+      "from": "agent_initial_screening",
+      "to": "human_candidate_interview"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "human_negotiation_client_terms"
+    },
+    {
+      "from": "human_candidate_interview",
+      "to": "human_negotiation_candidate_package"
+    },
+    {
+      "from": "human_negotiation_client_terms",
+      "to": "agent_contract_tracking"
+    },
+    {
+      "from": "human_negotiation_client_terms",
+      "to": "agent_financial_calculator"
+    },
+    {
+      "from": "human_negotiation_candidate_package",
+      "to": "agent_financial_calculator"
+    },
+    {
+      "from": "human_negotiation_candidate_package",
+      "to": "human_timesheet_approval",
+      "condition": "if temporary placement"
+    },
+    {
+      "from": "human_timesheet_approval",
+      "to": "agent_payroll_processing"
+    },
+    {
+      "from": "agent_payroll_processing",
+      "to": "agent_invoice_generation"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "human_relationship_management"
+    },
+    {
+      "from": "agent_contract_tracking",
+      "to": "human_relationship_management"
+    },
+    {
+      "from": "agent_financial_calculator",
+      "to": "human_negotiation_candidate_package"
+    },
+    {
+      "from": "human_relationship_management",
+      "to": "human_negotiation_client_terms",
+      "condition": "if contract needs review or client relationship needs attention"
+    },
+    {
+      "from": "human_relationship_management",
+      "to": "human_negotiation_candidate_package",
+      "condition": "if candidate satisfaction issues arise"
+    },
+    {
+      "from": "start",
+      "to": "agent_candidate_sourcing"
+    },
+    {
+      "from": "agent_candidate_sourcing",
+      "to": "agent_candidate_screening_initial"
+    },
+    {
+      "from": "agent_candidate_screening_initial",
+      "to": "human_candidate_interview_deep_dive"
+    },
+    {
+      "from": "human_candidate_interview_deep_dive",
+      "to": "agent_market_intelligence_capture"
+    },
+    {
+      "from": "human_candidate_interview_deep_dive",
+      "to": "agent_client_lead_qualification_initial"
+    },
+    {
+      "from": "human_candidate_interview_deep_dive",
+      "to": "agent_candidate_relationship_management"
+    },
+    {
+      "from": "agent_client_lead_qualification_initial",
+      "to": "human_client_outreach_warm"
+    },
+    {
+      "from": "human_client_outreach_warm",
+      "to": "human_client_negotiation_meeting"
+    },
+    {
+      "from": "agent_candidate_relationship_management",
+      "to": "human_candidate_relationship_nurturing"
+    },
+    {
+      "from": "human_candidate_relationship_nurturing",
+      "to": "agent_client_lead_qualification_initial",
+      "condition": "if new lead identified"
+    },
+    {
+      "from": "human_client_negotiation_meeting",
+      "to": "agent_financial_analysis",
+      "condition": "if pricing discussion occurs"
+    },
+    {
+      "from": "agent_financial_analysis",
+      "to": "human_client_negotiation_meeting",
+      "condition": "for next negotiation round"
+    },
+    {
+      "from": "human_client_negotiation_meeting",
+      "to": "human_strategic_decision_making",
+      "condition": "if negotiation outcomes impact strategy"
+    },
+    {
+      "from": "agent_market_intelligence_capture",
+      "to": "human_strategic_decision_making",
+      "condition": "for strategic review"
+    },
+    {
+      "from": "human_strategic_decision_making",
+      "to": "human_client_negotiation_meeting",
+      "condition": "if strategy update leads to further negotiation"
+    },
+    {
+      "from": "start",
+      "to": "human_client_consultation"
+    },
+    {
+      "from": "human_client_consultation",
+      "to": "agent_job_brief_intake",
+      "condition": "Job brief provided and retainer/contingent model decided"
+    },
+    {
+      "from": "human_client_consultation",
+      "to": "agent_invoice_generation",
+      "condition": "Retainer agreement signed and upfront payment due"
+    },
+    {
+      "from": "agent_job_brief_intake",
+      "to": "agent_candidate_sourcing_and_research"
+    },
+    {
+      "from": "agent_candidate_sourcing_and_research",
+      "to": "agent_cv_preparation"
+    },
+    {
+      "from": "agent_candidate_sourcing_and_research",
+      "to": "agent_communication_agent"
+    },
+    {
+      "from": "agent_cv_preparation",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "agent_communication_agent",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "agent_communication_agent",
+      "to": "human_candidate_interview_and_qualification",
+      "condition": "Candidate shows interest"
+    },
+    {
+      "from": "human_candidate_interview_and_qualification",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "human_candidate_interview_and_qualification",
+      "to": "agent_reporting_agent"
+    },
+    {
+      "from": "human_candidate_interview_and_qualification",
+      "to": "agent_interview_scheduling",
+      "condition": "Candidates qualified for client interview"
+    },
+    {
+      "from": "agent_reporting_agent",
+      "to": "human_client_consultation",
+      "condition": "Progress report ready for client review"
+    },
+    {
+      "from": "agent_reporting_agent",
+      "to": "agent_invoice_generation",
+      "condition": "Shortlist delivered and approved (retained model)"
+    },
+    {
+      "from": "agent_invoice_generation",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "agent_interview_scheduling",
+      "to": "human_negotiation_and_offer_management",
+      "condition": "Client interviews conducted"
+    },
+    {
+      "from": "human_negotiation_and_offer_management",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "human_negotiation_and_offer_management",
+      "to": "human_contract_finalization",
+      "condition": "Offer accepted"
+    },
+    {
+      "from": "human_negotiation_and_offer_management",
+      "to": "agent_invoice_generation",
+      "condition": "Offer accepted / remaining fee due (retained model)"
+    },
+    {
+      "from": "human_contract_finalization",
+      "to": "agent_crm_management"
+    },
+    {
+      "from": "human_contract_finalization",
+      "to": "agent_invoice_generation",
+      "condition": "Candidate started / final fee due (contingent or retained)"
+    }
+  ]
+}

@@ -1,0 +1,1755 @@
+```python
+# output/agents/agent_candidate_data_capture.py
+
+def agent_candidate_data_capture(state: dict) -> dict:
+    """
+    Collects initial CVs and basic candidate information from various sources.
+    """
+    # Placeholder implementation for CV and contact data capture
+    raw_candidate_profiles = []
+    
+    # Simulate collecting candidate data from various sources
+    if "candidate_cv_files" in state:
+        cv_files = state["candidate_cv_files"]
+        for cv_file in cv_files:
+            # Parse CV file (placeholder)
+            candidate_profile = {
+                "name": f"Candidate_{len(raw_candidate_profiles) + 1}",
+                "email": f"candidate{len(raw_candidate_profiles) + 1}@example.com",
+                "phone": f"+44123456789{len(raw_candidate_profiles)}",
+                "cv_content": f"CV content from {cv_file}",
+                "source": "job_board"
+            }
+            raw_candidate_profiles.append(candidate_profile)
+    
+    # If no CV files provided, create some sample data
+    if not raw_candidate_profiles:
+        raw_candidate_profiles = [
+            {
+                "name": "John Smith",
+                "email": "john.smith@example.com", 
+                "phone": "+441234567890",
+                "cv_content": "Software Developer with 5 years experience",
+                "source": "direct_application"
+            }
+        ]
+    
+    return {
+        **state,
+        "raw_candidate_profile_data": raw_candidate_profiles
+    }
+```
+
+```python
+# output/agents/agent_screening_scheduler.py
+
+def agent_screening_scheduler(state: dict) -> dict:
+    """
+    Automates the scheduling of initial screening calls between recruiters and candidates.
+    """
+    from datetime import datetime, timedelta
+    
+    scheduled_calls = []
+    
+    if "raw_candidate_profile_data" in state:
+        candidates = state["raw_candidate_profile_data"]
+        
+        for i, candidate in enumerate(candidates):
+            # Schedule call for next few days (placeholder logic)
+            call_time = datetime.now() + timedelta(days=i+1, hours=9)
+            
+            scheduled_call = {
+                "candidate_name": candidate["name"],
+                "candidate_email": candidate["email"],
+                "call_time": call_time.isoformat(),
+                "meeting_link": f"https://zoom.us/j/screening_{i+1}",
+                "status": "scheduled"
+            }
+            scheduled_calls.append(scheduled_call)
+    
+    return {
+        **state,
+        "confirmed_screening_call_time_and_link": scheduled_calls
+    }
+```
+
+```python
+# output/agents/agent_document_requester.py
+
+def agent_document_requester(state: dict) -> dict:
+    """
+    Sends automated requests and reminders to candidates for necessary eligibility documents.
+    """
+    document_requests = []
+    
+    if "raw_candidate_profile_data" in state:
+        candidates = state["raw_candidate_profile_data"]
+        
+        required_docs = [
+            "passport_copy",
+            "right_to_work_document", 
+            "professional_certifications",
+            "references"
+        ]
+        
+        for candidate in candidates:
+            request = {
+                "candidate_email": candidate["email"],
+                "candidate_name": candidate["name"],
+                "required_documents": required_docs,
+                "deadline": "7 days",
+                "request_sent": True,
+                "submission_status": "pending"
+            }
+            document_requests.append(request)
+    
+    return {
+        **state,
+        "document_request_emails_sent": document_requests,
+        "document_submission_status": "requests_sent"
+    }
+```
+
+```python
+# output/agents/agent_document_storage_and_tracking.py
+
+def agent_document_storage_and_tracking(state: dict) -> dict:
+    """
+    Securely stores all received candidate documents and tracks their status.
+    """
+    stored_documents = []
+    
+    if "document_request_emails_sent" in state:
+        requests = state["document_request_emails_sent"]
+        
+        for request in requests:
+            # Simulate document receipt and storage
+            for doc_type in request["required_documents"]:
+                stored_doc = {
+                    "candidate_name": request["candidate_name"],
+                    "document_type": doc_type,
+                    "storage_link": f"https://secure-storage.com/docs/{doc_type}_{request['candidate_name']}",
+                    "status": "received",
+                    "verification_status": "pending_verification"
+                }
+                stored_documents.append(stored_doc)
+    
+    return {
+        **state,
+        "stored_document_links": stored_documents,
+        "updated_document_status": "documents_stored"
+    }
+```
+
+```python
+# output/agents/agent_candidate_database_update.py
+
+def agent_candidate_database_update(state: dict) -> dict:
+    """
+    Maintains and updates candidate profiles in the ATS/CRM with all collected information.
+    """
+    updated_profiles = []
+    
+    # Get base candidate data
+    if "raw_candidate_profile_data" in state:
+        candidates = state["raw_candidate_profile_data"]
+        
+        for candidate in candidates:
+            updated_profile = {
+                **candidate,
+                "screening_notes": state.get("detailed_call_notes", ""),
+                "interview_feedback": state.get("interview_debriefs", ""),
+                "offer_status": state.get("offer_status", "not_offered"),
+                "compliance_status": state.get("verified_compliance_status", "pending"),
+                "relationship_notes": state.get("relationship_notes", ""),
+                "last_updated": "2024-01-01",
+                "profile_complete": True
+            }
+            updated_profiles.append(updated_profile)
+    
+    return {
+        **state,
+        "updated_candidate_profile_in_ats_crm": updated_profiles
+    }
+```
+
+```python
+# output/agents/agent_job_matching_engine.py
+
+def agent_job_matching_engine(state: dict) -> dict:
+    """
+    Identifies suitable job openings for candidates based on their updated profiles.
+    """
+    job_matches = []
+    
+    if "updated_candidate_profile_in_ats_crm" in state:
+        candidates = state["updated_candidate_profile_in_ats_crm"]
+        
+        # Sample job openings
+        available_jobs = [
+            {
+                "job_id": "JOB001",
+                "title": "Software Developer",
+                "client": "Tech Corp",
+                "requirements": ["Python", "5+ years experience"],
+                "salary_range": "£50k-£70k"
+            },
+            {
+                "job_id": "JOB002", 
+                "title": "Senior Developer",
+                "client": "Innovation Ltd",
+                "requirements": ["Java", "Leadership"],
+                "salary_range": "£60k-£80k"
+            }
+        ]
+        
+        for candidate in candidates:
+            matches = []
+            for job in available_jobs:
+                # Simple matching logic (placeholder)
+                if "developer" in candidate.get("cv_content", "").lower():
+                    match_score = 0.85
+                    matches.append({
+                        **job,
+                        "match_score": match_score,
+                        "candidate_name": candidate["name"]
+                    })
+            
+            if matches:
+                job_matches.extend(matches)
+    
+    return {
+        **state,
+        "list_of_potential_job_matches": job_matches
+    }
+```
+
+```python
+# output/agents/agent_application_preparer.py
+
+def agent_application_preparer(state: dict) -> dict:
+    """
+    Formats and compiles candidate CVs and other application materials according to client requirements.
+    """
+    formatted_applications = []
+    
+    if "updated_candidate_profile_in_ats_crm" in state:
+        candidates = state["updated_candidate_profile_in_ats_crm"]
+        
+        for candidate in candidates:
+            formatted_app = {
+                "candidate_name": candidate["name"],
+                "formatted_cv": f"Professionally formatted CV for {candidate['name']}",
+                "cover_letter": f"Tailored cover letter for {candidate['name']}",
+                "application_summary": f"Application package for {candidate['name']}",
+                "client_specific_format": True
+            }
+            formatted_applications.append(formatted_app)
+    
+    return {
+        **state,
+        "formatted_application_package": formatted_applications
+    }
+```
+
+```python
+# output/agents/agent_feedback_collector.py
+
+def agent_feedback_collector(state: dict) -> dict:
+    """
+    Automates the collection of feedback from clients after candidate interviews.
+    """
+    feedback_reports = []
+    
+    # Simulate collecting client feedback
+    if "list_of_potential_job_matches" in state:
+        matches = state["list_of_potential_job_matches"]
+        
+        for match in matches:
+            feedback = {
+                "client": match["client"],
+                "candidate_name": match["candidate_name"],
+                "interview_date": "2024-01-15",
+                "feedback": "Strong technical skills, good cultural fit",
+                "rating": "8/10",
+                "next_steps": "Proceed to final interview",
+                "collected_date": "2024-01-16"
+            }
+            feedback_reports.append(feedback)
+    
+    return {
+        **state,
+        "client_interview_feedback_report": feedback_reports
+    }
+```
+
+```python
+# output/agents/agent_reporting.py
+
+def agent_reporting(state: dict) -> dict:
+    """
+    Generates comprehensive reports on recruitment metrics, pipeline status, and compliance.
+    """
+    reports = {
+        "recruitment_metrics": {
+            "total_candidates": len(state.get("updated_candidate_profile_in_ats_crm", [])),
+            "active_jobs": len(state.get("list_of_potential_job_matches", [])),
+            "interviews_scheduled": len(state.get("client_interview_feedback_report", [])),
+            "placements_made": 0,
+            "conversion_rate": "0%"
+        },
+        "compliance_report": {
+            "candidates_verified": len([c for c in state.get("updated_candidate_profile_in_ats_crm", []) 
+                                      if c.get("compliance_status") == "verified"]),
+            "pending_verification": len([c for c in state.get("updated_candidate_profile_in_ats_crm", [])
+                                        if c.get("compliance_status") == "pending"]),
+            "compliance_rate": "100%"
+        },
+        "pipeline_status": {
+            "sourcing": len(state.get("raw_candidate_profile_data", [])),
+            "screening": len(state.get("confirmed_screening_call_time_and_link", [])),
+            "interviewing": len(state.get("client_interview_feedback_report", [])),
+            "offers": 0
+        }
+    }
+    
+    return {
+        **state,
+        "recruitment_metrics_dashboards": reports["recruitment_metrics"],
+        "compliance_reports": reports["compliance_report"]
+    }
+```
+
+```python
+# output/agents/agent_candidate_sourcer.py
+
+def agent_candidate_sourcer(state: dict) -> dict:
+    """
+    Identifies potential candidates from various sources, leveraging job boards and social media.
+    """
+    potential_candidates = []
+    
+    # Sample candidate sourcing
+    sourced_candidates = [
+        {
+            "name": "Alice Johnson",
+            "contact_info": "alice.johnson@email.com",
+            "cv_link": "https://linkedin.com/in/alice-johnson",
+            "current_role": "Software Engineer",
+            "current_company": "Tech Solutions Ltd",
+            "skills": ["Python", "React", "AWS"],
+            "source": "LinkedIn"
+        },
+        {
+            "name": "Bob Wilson", 
+            "contact_info": "bob.wilson@email.com",
+            "cv_link": "https://linkedin.com/in/bob-wilson",
+            "current_role": "Senior Developer",
+            "current_company": "Digital Corp",
+            "skills": ["Java", "Spring", "Microservices"],
+            "source": "Indeed"
+        }
+    ]
+    
+    return {
+        **state,
+        "list_of_potential_candidates": sourced_candidates
+    }
+```
+
+```python
+# output/agents/agent_candidate_qualifier.py
+
+def agent_candidate_qualifier(state: dict) -> dict:
+    """
+    Screens candidate profiles against job requirements and assesses communication patterns.
+    """
+    qualified_candidates = []
+    red_flags = []
+    
+    if "list_of_potential_candidates" in state:
+        candidates = state["list_of_potential_candidates"]
+        
+        for candidate in candidates:
+            # Simple qualification logic
+            qualification_score = 0.8  # Placeholder score
+            
+            if qualification_score > 0.7:
+                qualified_candidate = {
+                    **candidate,
+                    "qualification_score": qualification_score,
+                    "qualified": True,
+                    "assessment_notes": "Strong match for technical requirements"
+                }
+                qualified_candidates.append(qualified_candidate)
+            else:
+                red_flags.append({
+                    "candidate_name": candidate["name"],
+                    "issue": "Insufficient experience",
+                    "score": qualification_score
+                })
+    
+    return {
+        **state,
+        "qualified_candidate_list": qualified_candidates,
+        "qualification_score": 0.8,
+        "red_flags": red_flags
+    }
+```
+
+```python
+# output/agents/agent_outreach_communicator.py
+
+def agent_outreach_communicator(state: dict) -> dict:
+    """
+    Sends initial outreach messages and manages candidate communication.
+    """
+    engagement_status = []
+    scheduled_interviews = []
+    candidate_queries = []
+    
+    if "qualified_candidate_list" in state:
+        candidates = state["qualified_candidate_list"]
+        
+        for candidate in candidates:
+            # Simulate outreach results
+            status = {
+                "candidate_name": candidate["name"],
+                "contact_method": "email",
+                "response": "interested",
+                "engagement_level": "high",
+                "next_action": "schedule_interview"
+            }
+            engagement_status.append(status)
+            
+            # Schedule interview
+            interview = {
+                "candidate_name": candidate["name"],
+                "interview_type": "screening_call",
+                "scheduled_time": "2024-01-20 10:00",
+                "interviewer": "recruiter"
+            }
+            scheduled_interviews.append(interview)
+    
+    return {
+        **state,
+        "candidate_engagement_status": engagement_status,
+        "scheduled_interviews": scheduled_interviews,
+        "candidate_queries": candidate_queries,
+        "request_for_additional_info": []
+    }
+```
+
+```python
+# output/agents/agent_cv_submission.py
+
+def agent_cv_submission(state: dict) -> dict:
+    """
+    Prepares and sends candidate CVs and relevant profiles to clients for review.
+    """
+    submitted_profiles = []
+    submission_confirmations = []
+    
+    if "qualified_candidate_list" in state:
+        candidates = state["qualified_candidate_list"]
+        
+        for candidate in candidates:
+            submission = {
+                "candidate_name": candidate["name"],
+                "client_name": "Tech Corp",
+                "submission_date": "2024-01-18",
+                "cv_version": "client_formatted",
+                "status": "submitted"
+            }
+            submitted_profiles.append(submission)
+            
+            confirmation = {
+                "submission_id": f"SUB_{candidate['name'][:3].upper()}001",
+                "confirmed": True,
+                "client_notified": True
+            }
+            submission_confirmations.append(confirmation)
+    
+    return {
+        **state,
+        "submitted_candidate_profiles_to_client": submitted_profiles,
+        "submission_confirmation": submission_confirmations
+    }
+```
+
+```python
+# output/agents/agent_interview_scheduler.py
+
+def agent_interview_scheduler(state: dict) -> dict:
+    """
+    Manages the logistics of scheduling interviews between candidates and clients.
+    """
+    confirmed_schedules = []
+    reminders = []
+    
+    if "scheduled_interviews" in state:
+        interviews = state["scheduled_interviews"]
+        
+        for interview in interviews:
+            confirmed_schedule = {
+                **interview,
+                "status": "confirmed",
+                "meeting_link": f"https://teams.microsoft.com/interview_{interview['candidate_name']}",
+                "confirmation_sent": True
+            }
+            confirmed_schedules.append(confirmed_schedule)
+            
+            reminder = {
+                "recipient": interview["candidate_name"],
+                "interview_time": interview["scheduled_time"],
+                "reminder_sent": "24_hours_before"
+            }
+            reminders.append(reminder)
+    
+    return {
+        **state,
+        "confirmed_interview_schedules": confirmed_schedules,
+        "interview_reminders": reminders
+    }
+```
+
+```python
+# output/agents/agent_crm_manager.py
+
+def agent_crm_manager(state: dict) -> dict:
+    """
+    Updates and maintains all candidate and client data within the CRM system.
+    """
+    consolidated_records = {}
+    status_reports = []
+    
+    # Consolidate all data from various agents
+    if "qualified_candidate_list" in state:
+        candidates = state["qualified_candidate_list"]
+        for candidate in candidates:
+            record_id = candidate["name"].replace(" ", "_").lower()
+            consolidated_records[record_id] = {
+                "candidate_info": candidate,
+                "engagement_status": "active",
+                "last_interaction": "2024-01-18",
+                "pipeline_stage": "qualified",
+                "notes": "Qualified candidate, ready for client submission"
+            }
+    
+    # Generate status report
+    status_report = {
+        "total_records": len(consolidated_records),
+        "active_candidates": len([r for r in consolidated_records.values() 
+                                if r["engagement_status"] == "active"]),
+        "last_updated": "2024-01-18"
+    }
+    status_reports.append(status_report)
+    
+    return {
+        **state,
+        "consolidated_candidate_client_records": consolidated_records,
+        "updated_status_reports": status_reports
+    }
+```
+
+```python
+# output/agents/agent_referral_requestor.py
+
+def agent_referral_requestor(state: dict) -> dict:
+    """
+    Generates and sends automated requests for referrals to placed candidates and clients.
+    """
+    referral_leads = []
+    
+    # Check for successful placements to trigger referrals
+    if "confirmed_start_date" in state:
+        referral_request = {
+            "recipient_type": "placed_candidate",
+            "request_sent": True,
+            "request_date": "2024-01-25",
+            "referral_incentive": "£500 bonus",
+            "response_deadline": "30 days"
+        }
+        
+        # Simulate some referral responses
+        referral_leads = [
+            {
+                "referrer_name": "Alice Johnson",
+                "referred_candidate": "Charlie Brown",
+                "contact_details": "charlie.brown@email.com",
+                "relationship": "former_colleague",
+                "quality_score": 0.9
+            }
+        ]
+    
+    return {
+        **state,
+        "referral_leads": referral_leads
+    }
+```
+
+```python
+# output/agents/agent_info_gatherer_linkedin.py
+
+def agent_info_gatherer_linkedin(state: dict) -> dict:
+    """
+    Extracts detailed information from LinkedIn profiles to enrich candidate profiles.
+    """
+    detailed_insights = []
+    
+    if "list_of_potential_candidates" in state:
+        candidates = state["list_of_potential_candidates"]
+        
+        for candidate in candidates:
+            # Simulate LinkedIn data enrichment
+            insight = {
+                "candidate_name": candidate["name"],
+                "linkedin_profile": candidate.get("cv_link", ""),
+                "detailed_experience": f"Enhanced profile data for {candidate['name']}",
+                "network_connections": 500,
+                "industry_insights": "Technology sector, 5+ years experience",
+                "company_details": {
+                    "current_company": candidate.get("current_company", ""),
+                    "company_size": "50-200 employees",
+                    "industry": "Software Development"
+                }
+            }
+            detailed_insights.append(insight)
+    
+    return {
+        **state,
+        "detailed_candidate_company_insights": detailed_insights
+    }
+```
+
+```python
+# output/agents/agent_job_info_gathering.py
+
+def agent_job_info_gathering(state: dict) -> dict:
+    """
+    Gathers and structures detailed job requirements from client input.
+    """
+    if "raw_client_requirements" in state:
+        raw_requirements = state["raw_client_requirements"]
+    else:
+        raw_requirements = "Looking for a Senior Software Developer with Python experience"
+    
+    structured_job = {
+        "job_title": "Senior Software Developer",
+        "required_skills": ["Python", "Django", "REST APIs", "SQL"],
+        "experience_level": "5+ years",
+        "salary_range": "£55,000 - £75,000",
+        "location": "London / Remote",
+        "contract_type": "Permanent",
+        "key_responsibilities": [
+            "Develop and maintain software applications",
+            "Collaborate with cross-functional teams", 
+            "Code reviews and mentoring"
+        ]
+    }
+    
+    return {
+        **state,
+        "structured_job_description": structured_job,
+        "key_skills_list": structured_job["required_skills"],
+        "salary_range": structured_job["salary_range"],
+        "location_preferences": structured_job["location"]
+    }
+```
+
+```python
+# output/agents/agent_candidate_sourcing.py
+
+def agent_candidate_sourcing(state: dict) -> dict:
+    """
+    Identifies potential candidates based on structured job requirements.
+    """
+    candidate_profiles = []
+    
+    # Use job requirements to source candidates
+    if "structured_job_description" in state:
+        job_desc = state["structured_job_description"]
+        required_skills = state.get("key_skills_list", [])
+        
+        # Simulate candidate sourcing based on requirements
+        sourced_profiles = [
+            {
+                "name": "Sarah Davies",
+                "email": "sarah.davies@email.com",
+                "current_role": "Python Developer",
+                "skills_match": ["Python", "Django", "SQL"],
+                "experience_years": 6,
+                "location": "London",
+                "availability": "2 weeks notice"
+            },
+            {
+                "name": "Mike Chen", 
+                "email": "mike.chen@email.com",
+                "current_role": "Full Stack Developer",
+                "skills_match": ["Python", "REST APIs", "SQL"],
+                "experience_years": 4,
+                "location": "Remote",
+                "availability": "1 month notice"
+            }
+        ]
+        candidate_profiles = sourced_profiles
+    
+    return {
+        **state,
+        "list_of_potential_candidate_profiles": candidate_profiles
+    }
+```
+
+```python
+# output/agents/agent_interview_questionnaire_prep.py
+
+def agent_interview_questionnaire_prep(state: dict) -> dict:
+    """
+    Prepares tailored interview questions to thoroughly vet candidates.
+    """
+    interview_questions = []
+    
+    if "structured_job_description" in state:
+        job_desc = state["structured_job_description"]
+        
+        # Generate tailored questions
+        questions = [
+            {
+                "category": "technical",
+                "question": f"Can you describe your experience with {', '.join(job_desc.get('required_skills', [])[:2])}?",
+                "follow_up": "Can you walk me through a specific project where you used these technologies?"
+            },
+            {
+                "category": "motivation", 
+                "question": "What attracted you to this role and our company?",
+                "follow_up": "What are your salary expectations for this position?"
+            },
+            {
+                "category": "practical",
+                "question": f"The role is based in {job_desc.get('location', 'London')}. How does this fit with your preferences?",
+                "follow_up": "What is your notice period and availability?"
+            },
+            {
+                "category": "progression",
+                "question": "Where do you see yourself in 2-3 years?",
+                "follow_up": "What kind of career development opportunities are you looking for?"
+            }
+        ]
+        interview_questions = questions
+    
+    return {
+        **state,
+        "tailored_interview_questions": interview_questions
+    }
+```
+
+```python
+# output/agents/agent_candidate_assessment.py
+
+def agent_candidate_assessment(state: dict) -> dict:
+    """
+    Analyzes candidate interview responses and CVs to evaluate suitability.
+    """
+    assessments = []
+    
+    if "candidate_interview_responses" in state:
+        responses = state["candidate_interview_responses"]
+        
+        # Simulate assessment analysis
+        assessment = {
+            "technical_score": 8.5,
+            "communication_score": 9.0,
+            "motivation_score": 7.5,
+            "overall_score": 8.3,
+            "strengths": ["Strong technical skills", "Excellent communication", "Relevant experience"],
+            "concerns": ["Salary expectations slightly high"],
+            "recommendation": "Proceed to client interview"
+        }
+        assessments.append(assessment)
+    else:
+        # Default assessment if no interview data
+        assessments = [{
+            "technical_score": 8.0,
+            "communication_score": 8.0, 
+            "motivation_score": 8.0,
+            "overall_score": 8.0,
+            "recommendation": "Proceed to client interview"
+        }]
+    
+    return {
+        **state,
+        "candidate_skill_experience_score": assessments[0]["technical_score"],
+        "initial_suitability_rating": assessments[0]["overall_score"]
+    }
+```
+
+```python
+# output/agents/agent_candidate_motivation_analysis.py
+
+def agent_candidate_motivation_analysis(state: dict) -> dict:
+    """
+    Extracts and categorizes candidate motivations from interview data.
+    """
+    motivations = {}
+    
+    if "candidate_interview_responses" in state:
+        # Simulate motivation extraction from interview responses
+        motivations = {
+            "salary_expectations": "£65,000 - £70,000",
+            "acceptance_threshold": "£60,000 minimum",
+            "commute_preferences": "Max 30 mins or remote 2-3 days",
+            "progression_desires": "Lead role within 2 years",
+            "team_preferences": "Collaborative, learning-focused environment",
+            "benefits_priorities": ["Flexible working", "Professional development", "Healthcare"],
+            "deal_breakers": ["No remote work", "Micromanagement", "Below £55k"],
+            "motivating_factors": ["Career growth", "Technical challenges", "Work-life balance"]
+        }
+    else:
+        # Default motivation analysis
+        motivations = {
+            "salary_expectations": "£60,000 - £70,000",
+            "acceptance_threshold": "£55,000 minimum",
+            "commute_preferences": "Flexible location",
+            "progression_desires": "Senior technical role",
+            "team_preferences": "Collaborative team"
+        }
+    
+    return {
+        **state,
+        "detailed_candidate_motivations": motivations
+    }
+```
+
+```python
+# output/agents/agent_candidate_presentation.py
+
+def agent_candidate_presentation(state: dict) -> dict:
+    """
+    Compiles comprehensive candidate briefs for client review.
+    """
+    candidate_briefs = []
+    
+    if "list_of_potential_candidate_profiles" in state:
+        candidates = state["list_of_potential_candidate_profiles"]
+        assessment_score = state.get("initial_suitability_rating", 8.0)
+        motivations = state.get("detailed_candidate_motivations", {})
+        
+        for candidate in candidates:
+            brief = {
+                "candidate_name": candidate["name"],
+                "summary": f"Experienced {candidate.get('current_role', 'professional')} with {candidate.get('experience_years', 5)} years of relevant experience",
+                "cv": f"Professional CV for {candidate['name']}",
+                "skills_match": candidate.get("skills_match", []),
+                "assessment_score": assessment_score,
+                "key_motivators": motivations.get("motivating_factors", []),
+                "salary_expectations": motivations.get("salary_expectations", "Competitive"),
+                "availability": candidate.get("availability", "TBC"),
+                "vetting_notes": f"Thoroughly assessed candidate. Score: {assessment_score}/10"
+            }
+            candidate_briefs.append(brief)
+    
+    return {
+        **state,
+        "client_ready_candidate_brief": candidate_briefs
+    }
+```
+
+```python
+# output/agents/agent_interview_scheduling.py
+
+def agent_interview_scheduling(state: dict) -> dict:
+    """
+    Coordinates and schedules interviews between candidates and clients.
+    """
+    scheduled_times = []
+    calendar_invites = []
+    
+    if "client_ready_candidate_brief" in state:
+        candidates = state["client_ready_candidate_brief"]
+        
+        for i, candidate in enumerate(candidates):
+            # Schedule interview
+            scheduled_time = {
+                "candidate_name": candidate["candidate_name"],
+                "client": "Tech Corp",
+                "interview_date": f"2024-01-{22 + i}",
+                "interview_time": f"{9 + i}:00 AM",
+                "interview_type": "Technical Interview",
+                "duration": "60 minutes",
+                "location": "Video Call"
+            }
+            scheduled_times.append(scheduled_time)
+            
+            # Create calendar invite
+            invite = {
+                "subject": f"Interview: {candidate['candidate_name']} - {scheduled_time['interview_type']}",
+                "attendees": [candidate.get("email", "candidate@email.com"), "client@techcorp.com"],
+                "date_time": f"{scheduled_time['interview_date']} {scheduled_time['interview_time']}",
+                "meeting_link": f"https://zoom.us/j/interview_{i+1}"
+            }
+            calendar_invites.append(invite)
+    
+    return {
+        **state,
+        "scheduled_interview_times": scheduled_times,
+        "calendar_invites": calendar_invites
+    }
+```
+
+```python
+# output/agents/agent_offer_analysis.py
+
+def agent_offer_analysis(state: dict) -> dict:
+    """
+    Compares client offers against candidate expectations to support negotiation.
+    """
+    negotiation_recommendations = []
+    offer_comparison = {}
+    
+    if "client_offer_details" in state and "detailed_candidate_motivations" in state:
+        offer = state["client_offer_details"]
+        motivations = state["detailed_candidate_motivations"]
+        
+        # Simulate offer analysis
+        offer_comparison = {
+            "client_offer_salary": offer.get("salary", 65000),
+            "candidate_expectation": motivations.get("salary_expectations", "£65,000"),
+            "candidate_minimum": motivations.get("acceptance_threshold", "£60,000"),
+            "gap_analysis": "Offer meets candidate expectations",
+            "negotiation_required": False
+        }
+        
+        recommendations = [
+            "Offer aligns well with candidate expectations",
+            "Consider highlighting remote work flexibility",
+            "Emphasize career development opportunities",
+            "Package likely to be accepted"
+        ]
+        negotiation_recommendations = recommendations
+    
+    return {
+        **state,
+        "negotiation_strategy_recommendations": negotiation_recommendations,
+        "offer_comparison_report": offer_comparison
+    }
+```
+
+```python
+# output/agents/agent_post_offer_followup.py
+
+def agent_post_offer_followup(state: dict) -> dict:
+    """
+    Automates tailored follow-up communications after an offer is extended.
+    """
+    followup_messages = []
+    
+    if "candidate_status" in state:
+        status = state["candidate_status"]
+        motivations = state.get("detailed_candidate_motivations", {})
+        
+        if status == "offer_extended":
+            message = {
+                "message_type": "offer_follow_up",
+                "content": "Following up on the exciting offer from Tech Corp. Happy to discuss any questions you might have about the role, team, or career development opportunities.",
+                "personalization": f"I know {', '.join(motivations.get('motivating_factors', ['career growth']))} are important to you.",
+                "call_to_action": "Let's schedule a call to discuss next steps",
+                "send_time": "24 hours after offer"
+            }
+        elif status == "offer_accepted":
+            message = {
+                "message_type": "congratulations",
+                "content": "Congratulations on accepting the position! I'm here to support you through the onboarding process.",
+                "next_steps": "Start date confirmation and documentation",
+                "send_time": "immediate"
+            }
+        else:
+            message = {
+                "message_type": "general_follow_up",
+                "content": "Checking in on your job search progress",
+                "send_time": "weekly"
+            }
+        
+        followup_messages.append(message)
+    
+    return {
+        **state,
+        "tailored_follow_up_messages": followup_messages
+    }
+```
+
+```python
+# output/agents/agent_contract_generation.py
+
+def agent_contract_generation(state: dict) -> dict:
+    """
+    Generates employment contracts for temporary workers and service agreements.
+    """
+    draft_contracts = []
+    service_agreements = []
+    
+    if "candidate_details" in state:
+        candidate = state["candidate_details"]
+        hourly_rate = state.get("hourly_rate", 25.00)
+        agency_margin = state.get("agency_margin", 0.15)
+        
+        # Generate employment contract
+        contract = {
+            "contract_type": "temporary_employment",
+            "candidate_name": candidate.get("name", "Candidate Name"),
+            "hourly_rate": hourly_rate,
+            "duration": state.get("contract_duration", "3 months"),
+            "start_date": "2024-02-01",
+            "working_hours": "40 hours per week",
+            "terms": "Standard temporary employment terms"
+        }
+        draft_contracts.append(contract)
+        
+        # Generate client service agreement
+        client_rate = hourly_rate * (1 + agency_margin)
+        service_agreement = {
+            "client_name": state.get("client_details", {}).get("name", "Client Name"),
+            "service_type": "Temporary staffing",
+            "hourly_charge_rate": client_rate,
+            "payment_terms": "Weekly invoicing",
+            "margin": agency_margin * 100
+        }
+        service_agreements.append(service_agreement)
+    
+    return {
+        **state,
+        "draft_employment_contract": draft_contracts,
+        "client_service_agreement": service_agreements
+    }
+```
+
+```python
+# output/agents/agent_payroll_setup.py
+
+def agent_payroll_setup(state: dict) -> dict:
+    """
+    Sets up and manages payroll for temporary workers.
+    """
+    payroll_entries = []
+    tax_calculations = []
+    
+    if "candidate_contract" in state:
+        contract = state["candidate_contract"]
+        hourly_rate = state.get("hourly_rate", 25.00)
+        hours_worked = state.get("hours_worked", 40)
+        
+        gross_pay = hourly_rate * hours_worked
+        
+        # Calculate taxes (simplified UK calculation)
+        tax_free_allowance = 1048  # Monthly allowance
+        taxable_income = max(0, gross_pay - tax_free_allowance)
+        income_tax = taxable_income * 0.20
+        ni_contribution = gross_pay * 0.12 if gross_pay > 797 else 0
+        
+        net_pay = gross_pay - income_tax - ni_contribution
+        
+        payroll_entry = {
+            "candidate_name": contract.get("candidate_name", "Candidate"),
+            "period": "2024-01",
+            "hours_worked": hours_worked,
+            "hourly_rate": hourly_rate,
+            "gross_pay": gross_pay,
+            "income_tax": income_tax,
+            "ni_contribution": ni_contribution,
+            "net_pay": net_pay
+        }
+        payroll_entries.append(payroll_entry)
+        
+        tax_calc = {
+            "gross_pay": gross_pay,
+            "tax_deductions": income_tax + ni_contribution,
+            "net_pay": net_pay
+        }
+        tax_calculations.append(tax_calc)
+    
+    return {
+        **state,
+        "payroll_entries": payroll_entries,
+        "tax_calculations": tax_calculations
+    }
+```
+
+```python
+# output/agents/agent_invoice_generation.py
+
+def agent_invoice_generation(state: dict) -> dict:
+    """
+    Creates and issues invoices to clients for temporary placements.
+    """
+    client_invoices = []
+    
+    if "client_service_agreement" in state:
+        agreements = state["client_service_agreement"]
+        hours_worked = state.get("hours_worked", 40)
+        
+        for agreement in agreements:
+            charge_rate = agreement.get("hourly_charge_rate", 30.00)
+            total_amount = charge_rate * hours_worked
+            
+            invoice = {
+                "invoice_id": f"INV-{agreement['client_name'][:3].upper()}-001",
+                "client_name": agreement["client_name"],
+                "period": "Week ending 2024-01-26",
+                "hours_worked": hours_worked,
+                "hourly_rate": charge_rate,
+                "total_amount": total_amount,
+                "vat_amount": total_amount * 0.20,
+                "total_inc_vat": total_amount * 1.20,
+                "payment_terms": agreement["payment_terms"],
+                "due_date": "2024-02-09"
+            }
+            client_invoices.append(invoice)
+    
+    return {
+        **state,
+        "client_invoices": client_invoices
+    }
+```
+
+```python
+# output/agents/agent_financing_company_interface.py
+
+def agent_financing_company_interface(state: dict) -> dict:
+    """
+    Manages interactions with financing companies for invoice processing.
+    """
+    processed_payments = []
+    incoming_funds = []
+    credit_reports = []
+    
+    if "client_invoices" in state:
+        invoices = state["client_invoices"]
+        
+        for invoice in invoices:
+            # Process payment to candidate
+            payment = {
+                "recipient": "Candidate",
+                "amount": invoice["total_amount"] * 0.85,  # After margin
+                "payment_date": "2024-01-26",
+                "status": "processed"
+            }
+            processed_payments.append(payment)
+            
+            # Incoming funds from financing company
+            funds = {
+                "invoice_id": invoice["invoice_id"],
+                "advance_amount": invoice["total_amount"] * 0.90,  # 90% advance
+                "expected_date": "2024-01-27",
+                "status": "pending"
+            }
+            incoming_funds.append(funds)
+            
+            # Credit check report
+            credit_report = {
+                "client_name": invoice["client_name"],
+                "credit_rating": "Good",
+                "credit_limit": 50000,
+                "recommendation": "Approve"
+            }
+            credit_reports.append(credit_report)
+    
+    return {
+        **state,
+        "payments_to_candidates_processed": processed_payments,
+        "incoming_funds_from_financing_company": incoming_funds,
+        "client_credit_check_reports": credit_reports
+    }
+```
+
+```python
+# output/agents/agent_profit_tracking.py
+
+def agent_profit_tracking(state: dict) -> dict:
+    """
+    Monitors and reports on profit margins for all placements.
+    """
+    profit_reports = []
+    margin_analysis = {}
+    cash_flow_forecast = {}
+    
+    if "client_invoices" in state and "payroll_entries" in state:
+        invoices = state["client_invoices"]
+        payroll = state["payroll_entries"]
+        
+        total_revenue = sum(inv["total_amount"] for inv in invoices)
+        total_costs = sum(pay["gross_pay"] for pay in payroll)
+        total_profit = total_revenue - total_costs
+        profit_margin = (total_profit / total_revenue * 100) if total_revenue > 0 else 0
+        
+        profit_report = {
+            "period": "2024-01",
+            "total_revenue": total_revenue,
+            "total_costs": total_costs,
+            "gross_profit": total_profit,
+            "profit_margin_percent": profit_margin,
+            "number_of_placements": len(invoices)
+        }
+        profit_reports.append(profit_report)
+        
+        margin_analysis = {
+            "average_margin_per_placement": profit_margin,
+            "highest_margin_client": invoices[0]["client_name"] if invoices else "",
+            "recommendations": ["Maintain current pricing strategy"] if profit_margin > 15 else ["Review pricing"]
+        }
+        
+        cash_flow_forecast = {
+            "next_month_revenue": total_revenue * 1.1,  # Projected growth
+            "next_month_costs": total_costs * 1.05,
+            "projected_profit": (total_revenue * 1.1) - (total_costs * 1.05)
+        }
+    
+    return {
+        **state,
+        "real_time_profit_reports": profit_reports,
+        "margin_analysis": margin_analysis,
+        "cash_flow_forecasts": cash_flow_forecast
+    }
+```
+
+```python
+# output/agents/agent_candidate_relationship_management.py
+
+def agent_candidate_relationship_management(state: dict) -> dict:
+    """
+    Manages ongoing communication and engagement with candidates.
+    """
+    scheduled_checkins = []
+    engagement_reports = []
+    
+    if "placement_details" in state or "qualified_candidate_list" in state:
+        # For placed candidates
+        if "placement_details" in state:
+            checkin = {
+                "candidate_name": state["placement_details"].get("candidate_name", "Candidate"),
+                "checkin_type": "post_placement",
+                "scheduled_date": "2024-02-08",  # 2 weeks after start
+                "purpose": "Check satisfaction and address any issues",
+                "method": "phone_call"
+            }
+            scheduled_checkins.append(checkin)
+        
+        # For active candidates
+        if "qualified_candidate_list" in state:
+            candidates = state["qualified_candidate_list"]
+            for candidate in candidates[:3]:  # Limit to top candidates
+                checkin = {
+                    "candidate_name": candidate["name"],
+                    "checkin_type": "relationship_maintenance", 
+                    "scheduled_date": "2024-02-15",
+                    "purpose": "Maintain relationship and identify new opportunities",
+                    "method": "email"
+                }
+                scheduled_checkins.append(checkin)
+        
+        # Generate engagement report
+        engagement_report = {
+            "total_active_candidates": len(scheduled_checkins),
+            "engagement_level": "High",
+            "last_contact_date": "2024-01-18",
+            "upcoming_checkins": len(scheduled_checkins)
+        }
+        engagement_reports.append(engagement_report)
+    
+    return {
+        **state,
+        "scheduled_check_ins": scheduled_checkins,
+        "engagement_reports": engagement_reports
+    }
+```
+
+```python
+# output/agents/agent_client_relationship_management.py
+
+def agent_client_relationship_management(state: dict) -> dict:
+    """
+    Manages ongoing communication and satisfaction with clients.
+    """
+    scheduled_checkins = []
+    performance_reports = []
+    
+    # Client check-ins based on invoice status or placement activity
+    if "client_invoices" in state:
+        invoices = state["client_invoices"]
+        unique_clients = list(set(inv["client_name"] for inv in invoices))
+        
+        for client in unique_clients:
+            checkin = {
+                "client_name": client,
+                "checkin_type": "service_review",
+                "scheduled_date": "2024-02-01",
+                "purpose": "Review placement performance and identify new opportunities",
+                "method": "video_call"
+            }
+            scheduled_checkins.append(checkin)
+            
+            # Performance report for this client
+            client_invoices = [inv for inv in invoices if inv["client_name"] == client]
+            performance_report = {
+                "client_name": client,
+                "active_placements": len(client_invoices),
+                "total_billing": sum(inv["total_amount"] for inv in client_invoices),
+                "payment_status": "Current",
+                "satisfaction_score": "High",
+                "retention_risk": "Low"
+            }
+            performance_reports.append(performance_report)
+    
+    return {
+        **state,
+        "scheduled_check_ins": scheduled_checkins if not state.get("scheduled_check_ins") else state["scheduled_check_ins"] + scheduled_checkins,
+        "performance_reports": performance_reports
+    }
+```
+
+```python
+# output/agents/agent_job_ad_creation.py
+
+def agent_job_ad_creation(state: dict) -> dict:
+    """
+    Creates and publishes job advertisements based on client requirements.
+    """
+    published_ads = []
+    
+    if "client_job_requirements" in state:
+        requirements = state["client_job_requirements"]
+        
+        job_ad = {
+            "job_title": requirements.get("title", "Software Developer"),
+            "company": requirements.get("company", "Leading Tech Company"),
+            "location": requirements.get("location", "London"),
+            "salary_range": requirements.get("salary", "Competitive"),
+            "description": f"Exciting opportunity for a {requirements.get('title', 'professional')} to join our growing team.",
+            "requirements_text": "Strong technical skills and experience required",
+            "published_platforms": ["Indeed", "LinkedIn Jobs", "Company Website"],
+            "publication_date": "2024-01-18",
+            "expiry_date": "2024-02-18"
+        }
+        
+        published_links = [
+            f"https://indeed.com/jobs/{job_ad['job_title'].lower().replace(' ', '-')}-123",
+            f"https://linkedin.com/jobs/view/{hash(job_ad['job_title']) % 1000000}",
+            f"https://company.com/careers/{job_ad['job_title'].lower().replace(' ', '-')}"
+        ]
+        
+        published_ads.append({
+            **job_ad,
+            "published_links": published_links
+        })
+    
+    return {
+        **state,
+        "published_job_ad_links": published_ads
+    }
+```
+
+```python
+# output/agents/agent_cv_screening.py
+
+def agent_cv_screening(state: dict) -> dict:
+    """
+    Filters and reviews raw candidate CVs against job requirements.
+    """
+    shortlisted_cvs = []
+    
+    if "raw_candidate_profiles" in state and "client_job_requirements" in state:
+        candidates = state["raw_candidate_profiles"]
+        requirements = state["client_job_requirements"]
+        
+        required_skills = requirements.get("skills", ["Python", "Software Development"])
+        
+        for candidate in candidates:
+            cv_content = candidate.get("cv_content", "").lower()
+            skills_match = sum(1 for skill in required_skills if skill.lower() in cv_content)
+            match_percentage = (skills_match / len(required_skills)) * 100 if required_skills else 0
+            
+            if match_percentage > 50:  # 50% match threshold
+                shortlisted_cv = {
+                    **candidate,
+                    "match_percentage": match_percentage,
+                    "matched_skills": [skill for skill in required_skills if skill.lower() in cv_content],
+                    "screening_status": "shortlisted",
+                    "screening_notes": f"Strong match with {match_percentage:.0f}% skill alignment"
+                }
+                shortlisted_cvs.append(shortlisted_cv)
+    
+    return {
+        **state,
+        "shortlisted_cvs": shortlisted_cvs
+    }
+```
+
+```python
+# output/agents/agent_candidate_info_capture.py
+
+def agent_candidate_info_capture(state: dict) -> dict:
+    """
+    Records and structures candidate details from human interactions.
+    """
+    structured_data = []
+    
+    if "interview_notes" in state:
+        notes = state["interview_notes"]
+        motivations = state.get("motivation_details", {})
+        
+        structured_candidate = {
+            "candidate_info": {
+                "technical_assessment": notes.get("technical_score", "Good"),
+                "communication_skills": notes.get("communication", "Excellent"),
+                "experience_level": notes.get("experience", "Senior"),
+                "cultural_fit": notes.get("culture_fit", "High")
+            },
+            "motivation_analysis": {
+                "career_goals": motivations.get("career_goals", "Progression to senior role"),
+                "salary_expectations": motivations.get("salary", "£60k-£70k"),
+                "location_preferences": motivations.get("location", "London/Remote"),
+                "notice_period": motivations.get("notice_period", "1 month")
+            },
+            "suitability_rating": notes.get("overall_score", 8.0),
+            "next_steps": "Proceed to client presentation",
+            "data_capture_date": "2024-01-18"
+        }
+        structured_data.append(structured_candidate)
+    
+    return {
+        **state,
+        "structured_candidate_data": structured_data
+    }
+```
+
+```python
+# output/agents/agent_document_generation.py
+
+def agent_document_generation(state: dict) -> dict:
+    """
+    Generates templated documents for interviews and offers.
+    """
+    questionnaire = []
+    confirmation_emails = []
+    offer_letters = []
+    
+    # Generate candidate questionnaire
+    if "client_job_requirements" in state:
+        requirements = state["client_job_requirements"]
+        questionnaire = [
+            f"Please describe your experience with {requirements.get('key_skills', 'relevant technologies')}",
+            "What are your salary expectations for this role?",
+            "What is your notice period?",
+            "Are you comfortable with the location requirements?",
+            "What interests you most about this opportunity?"
+        ]
+    
+    # Generate interview confirmation email
+    if "interview_schedule" in state:
+        schedule = state["interview_schedule"]
+        confirmation_email = {
+            "subject": f"Interview Confirmation - {schedule.get('role', 'Position')}",
+            "body": f"Dear Candidate,\n\nThis confirms your interview on {schedule.get('date', 'TBC')} at {schedule.get('time', 'TBC')}.\n\nBest regards,\nRecruitment Team",
+            "attachments": ["Interview Guide", "Company Information"]
+        }
+        confirmation_emails.append(confirmation_email)
+    
+    # Generate offer letter
+    if "offer_details" in state:
+        offer = state["offer_details"]
+        offer_letter = {
+            "candidate_name": offer.get("candidate", "Candidate Name"),
+            "position": offer.get("role", "Position"),
+            "salary": offer.get("salary", "Competitive"),
+            "start_date": offer.get("start_date", "TBC"),
+            "terms": "Standard employment terms and conditions apply"
+        }
+        offer_letters.append(offer_letter)
+    
+    return {
+        **state,
+        "candidate_questionnaire": questionnaire,
+        "interview_confirmation_email": confirmation_emails,
+        "offer_letter": offer_letters
+    }
+```
+
+```python
+# output/agents/agent_email_automation.py
+
+def agent_email_automation(state: dict) -> dict:
+    """
+    Sends automated emails to candidates and clients.
+    """
+    sent_emails = []
+    read_receipts = []
+    
+    # Send interview confirmations
+    if "interview_confirmation_email" in state:
+        emails = state["interview_confirmation_email"]
+        for email in emails:
+            sent_email = {
+                "email_id": f"EMAIL_{len(sent_emails) + 1}",
+                "recipient": email.get("recipient", "candidate@email.com"),
+                "subject": email["subject"],
+                "sent_date": "2024-01-18",
+                "status": "sent"
+            }
+            sent_emails.append(sent_email)
+            
+            # Simulate read receipt
+            receipt = {
+                "email_id": sent_email["email_id"],
+                "read_date": "2024-01-18",
+                "read_status": "opened"
+            }
+            read_receipts.append(receipt)
+    
+    # Send follow-up emails
+    if "follow_up_schedule" in state:
+        followups = state["follow_up_schedule"]
+        for followup in followups:
+            sent_email = {
+                "email_id": f"FOLLOWUP_{len(sent_emails) + 1}",
+                "recipient": followup.get("recipient", "contact@email.com"),
+                "subject": "Following up on our conversation",
+                "sent_date": "2024-01-19",
+                "status": "sent"
+            }
+            sent_emails.append(sent_email)
+    
+    return {
+        **state,
+        "sent_emails": sent_emails,
+        "email_read_receipts": read_receipts
+    }
+```
+
+```python
+# output/agents/agent_crm_update.py
+
+def agent_crm_update(state: dict) -> dict:
+    """
+    Updates the CRM system with latest interaction data.
+    """
+    updated_records = []
+    
+    # Update with structured candidate data
+    if "structured_candidate_data" in state:
+        candidate_data = state["structured_candidate_data"]
+        for data in candidate_data:
+            record = {
+                "record_type": "candidate",
+                "candidate_info": data["candidate_info"],
+                "last_updated": "2024-01-18",
+                "status": "active",
+                "stage": "qualified"
+            }
+            updated_records.append(record)
+    
+    # Update with client feedback
+    if "client_feedback" in state:
+        feedback = state["client_feedback"]
+        record = {
+            "record_type": "client_interaction",
+            "feedback": feedback,
+            "interaction_date": "2024-01-18",
+            "next_action": "Schedule follow-up"
+        }
+        updated_records.append(record)
+    
+    # Update with placement status
+    if "placement_status" in state:
+        status = state["placement_status"]
+        record = {
+            "record_type": "placement",
+            "status": status,
+            "placement_date": "2024-01-18" if status == "placed" else None,
+            "commission_due": status == "placed"
+        }
+        updated_records.append(record)
+    
+    return {
+        **state,
+        "updated_crm_records": updated_records
+    }
+```
+
+```python
+# output/agents/agent_payment_tracking.py
+
+def agent_payment_tracking(state: dict) -> dict:
+    """
+    Monitors invoice status and tracks incoming payments.
+    """
+    payment_updates = []
+    
+    if "generated_invoice" in state or "client_invoices" in state:
+        invoices = state.get("generated_invoice") or state.get("client_invoices", [])
+        
+        if not isinstance(invoices, list):
+            invoices = [invoices]
+        
+        for invoice in invoices:
+            payment_update = {
+                "invoice_id": invoice.get("invoice_id", f"INV_{hash(str(invoice)) % 1000}"),
+                "client_name": invoice.get("client_name", "Client"),
+                "invoice_amount": invoice.get("total_amount", 0),
+                "due_date": invoice.get("due_date", "2024-02-01"),
+                "payment_status": "pending",
+                "days_outstanding": 0,
+                "payment_method": "bank_transfer",
+                "last_checked": "2024-01-18"
+            }
+            payment_updates.append(payment_update)
+    
+    return {
+        **state,
+        "payment_status_updates": payment_updates
+    }
+```
+
+```python
+# output/agents/agent_crm_and_communication_automation.py
+
+def agent_crm_and_communication_automation(state: dict) -> dict:
+    """
+    Automates candidate and client communication and manages CRM updates.
+    """
+    scheduled_communications = []
+    activity_reports = []
+    notifications = []
+    
+    # Schedule communications based on inputs
+    inputs_to_check = [
+        "new_candidate_details", "new_client_details", "interview_schedules",
+        "client_feedback", "candidate_preferences", "offer_details"
+    ]
+    
+    for input_type in inputs_to_check:
+        if input_type in state:
+            data = state[input_type]
+            
+            if input_type == "new_candidate_details":
+                comm = {
+                    "type": "welcome_email",
+                    "recipient": data.get("email", "candidate@email.com"),
+                    "subject": "Welcome - Next Steps in Your Application",
+                    "scheduled_time": "immediate",
+                    "template": "candidate_welcome"
+                }
+                scheduled_communications.append(comm)
+            
+            elif input_type == "interview_schedules":
+                comm = {
+                    "type": "interview_confirmation", 
+                    "recipient": data.get("candidate_email", "candidate@email.com"),
+                    "subject": f"Interview Confirmed - {data.get('role', 'Position')}",
+                    "scheduled_time": "24_hours_before",
+                    "template": "interview_confirmation"
+                }
+                scheduled_communications.append(comm)
+            
+            elif input_type == "offer_details":
+                comm = {
+                    "type": "offer_notification",
+                    "recipient": data.get("candidate_email", "candidate@email.com"), 
+                    "subject": "Job Offer - Congratulations!",
+                    "scheduled_time": "immediate",
+                    "template": "offer_letter"
+                }
+                scheduled_communications.append(comm)
+    
+    # Generate activity report
+    activity_report = {
+        "total_communications_scheduled": len(scheduled_communications),
+        "candidates_contacted": len([c for c in scheduled_communications if "candidate" in c["recipient"]]),
+        "clients_contacted": len([c for c in scheduled_communications if "client" in c["recipient"]]),
+        "last_update": "2024-01-18"
+    }
+    activity_reports.append(activity_report)
+    
+    # Generate notifications for human nodes
+    if len(scheduled_communications) > 0:
+        notification = {
+            "type": "communication_scheduled",
+            "message": f"{len(scheduled_communications)} communications scheduled for delivery",
+            "priority": "normal",
+            "requires_human_action": False
+        }
+        notifications.append(notification)
+    
+    return {
+        **state,
+        "scheduled_emails_sms": scheduled_communications,
+        "interview_confirmations": [c for c in scheduled_communications if c["type"] == "interview_confirmation"],
+        "feedback_requests": [c for c in scheduled_communications if "feedback" in c["type"]],
+        "activity_reports": activity_reports,
+        "updated_status_in_crm": "communications_scheduled",
+        "notifications_for_human_nodes": notifications
+    }
+```
+
+```python
+# output/agents/agent_financial_management_and_reporting.py
+
+def agent_financial_management_and_reporting(state: dict) -> dict:
+    """
+    Handles financial transactions, invoicing, payroll, and financial reporting.
+    """
+    invoices = []
+    payslips = []
+    tax_reports = []
+    financial_reports = {}
+    
+    # Generate invoices from deal values
+    if "deal_values" in state:
+        deals = state["deal_values"] if isinstance(state["deal_values"], list) else [state["deal_values"]]
+        
+        for i, deal in enumerate(deals):
+            invoice = {
+                "invoice_id": f"INV-2024-{i+1:03d}",
+                "client_name": deal.get("client", "Client Name"),
+                "amount": deal.get("value", 5000),
+                "vat": deal.get("value", 5000) * 0.20,
+                "total": deal.get("value", 5000) * 1.20,
+                "due_date": "2024-02-17",
+                "status": "sent"
+            }
+            invoices.append(invoice)
+    
+    # Process contractor payroll
+    if "contractor_timesheets" in state:
+        timesheets = state["contractor_timesheets"]
+        for timesheet in timesheets:
+            gross_pay = timesheet.get("hours", 40) * timesheet.get("rate", 25)
+            tax = gross_pay * 0.20
+            ni = gross_pay * 0.12
+            net_pay = gross_pay - tax - ni
+            
+            payslip = {
+                "contractor": timesheet.get("name", "Contractor"),
+                "period": "2024-01",
+                "gross_pay": gross_pay,
+                "tax": tax,
+                "national_insurance": ni,
+                "net_pay": net_pay
+            }
+            payslips.append(payslip)
+    
+    # Generate tax reports
+    total_revenue = sum(inv["amount"] for inv in invoices)
+    total_costs = sum(pay["gross_pay"] for pay in payslips)
+    
+    tax_report = {
+        "period": "2024-Q1",
+        "revenue": total_revenue,
+        "costs": total_costs,
+        "profit": total_revenue - total_costs,
+        "corporation_tax": max(0, (total_revenue - total_costs) * 0.19),
+        "vat_due": sum(inv["vat"] for inv in invoices)
+    }
+    tax_reports.append(tax_report)
+    
+    # Generate comprehensive financial reports
+    financial_reports = {
+        "cash_flow_forecast": {
+            "incoming": sum(inv["total"] for inv in

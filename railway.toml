@@ -1,0 +1,18 @@
+# Railway deployment: persistent server for the recruitment workflow
+# Deploy: railway link && railway up (or connect repo and auto-deploy)
+# Docs: https://docs.railway.app/
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile.chainlit"  # Use Chainlit Dockerfile for browser UI
+
+[deploy]
+# Chainlit runs on port 8000 (or $PORT from Railway)
+startCommand = "chainlit run app.py --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/"
+healthcheckTimeout = 10
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+# Alternative: Use Dockerfile (FastAPI server) instead of Dockerfile.chainlit
+# Set dockerfilePath = "Dockerfile" and startCommand = "python -m uvicorn server:app --host 0.0.0.0 --port $PORT"

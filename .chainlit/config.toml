@@ -1,0 +1,12 @@
+[project]
+name = "Recruitment workflow"
+description = "Run the course-to-revenue pipeline in the browser. See each agent step; reply in chat for human steps."
+enable_telemetry = false
+
+[UI]
+default_collapse_content = true
+show_readme_as_default = false
+hide_cot = false
+
+[features]
+show_steps = true

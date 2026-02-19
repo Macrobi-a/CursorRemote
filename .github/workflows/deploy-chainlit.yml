@@ -1,0 +1,19 @@
+# Optional: Auto-deploy Chainlit to Railway on push to main
+# Requires Railway token in GitHub Secrets: RAILWAY_TOKEN
+name: Deploy Chainlit
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@v1.0.0
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: chainlit
+          dockerfile_path: Dockerfile.chainlit

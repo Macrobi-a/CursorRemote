@@ -1,0 +1,28 @@
+{
+  "course_summary": "One-paragraph summary of the business course.",
+  "agents": [
+    {
+      "id": "agent_outreach",
+      "name": "Outreach Agent",
+      "role": "Handles cold emails, LinkedIn outreach, and follow-ups.",
+      "tools": ["send_email", "search_linkedin", "schedule_follow_up"],
+      "inputs": ["lead_list", "email_templates", "campaign_brief"],
+      "outputs": ["outreach_log", "replies", "meeting_requests"],
+      "depends_on": []
+    }
+  ],
+  "human_nodes": [
+    {
+      "id": "human_client_meeting",
+      "description": "Live meeting with a client to close a deal or present.",
+      "trigger_condition": "When a lead requests a call or demo.",
+      "inputs_from_agents": ["outreach_log", "replies"],
+      "outputs_for_agents": ["meeting_notes", "next_steps", "deal_status"]
+    }
+  ],
+  "edges": [
+    { "from": "start", "to": "agent_outreach" },
+    { "from": "agent_outreach", "to": "human_client_meeting", "condition": "meeting_requested" },
+    { "from": "human_client_meeting", "to": "agent_outreach", "condition": "follow_up_needed" }
+  ]
+}
