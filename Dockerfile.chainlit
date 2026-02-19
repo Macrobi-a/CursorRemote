@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 # Don't copy .venv or heavy caches
 RUN rm -rf .venv __pycache__ output/__pycache__ output/agents/__pycache__ 2>/dev/null; true
+# .chainlit is excluded via .dockerignore - Chainlit will regenerate config.toml at runtime
 
 # Load .env at runtime (or use platform env vars)
 ENV PYTHONUNBUFFERED=1
