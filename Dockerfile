@@ -16,5 +16,5 @@ RUN rm -rf .venv __pycache__ output/__pycache__ output/agents/__pycache__ 2>/dev
 ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
-# Run the server; health at GET /health
-CMD ["python", "-m", "uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run Chainlit (browser UI) instead of FastAPI server
+CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "8000"]
