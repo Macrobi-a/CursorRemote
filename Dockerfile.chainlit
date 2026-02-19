@@ -19,4 +19,5 @@ ENV PORT=8000
 EXPOSE $PORT
 
 # Run Chainlit (browser UI) - use Railway's PORT env var
-CMD ["sh", "-c", "chainlit run app.py --host 0.0.0.0 --port ${PORT:-8000}"]
+# Use shell form to expand PORT env var
+CMD chainlit run app.py --host 0.0.0.0 --port ${PORT:-8000}

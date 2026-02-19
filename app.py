@@ -60,7 +60,12 @@ def _get_human_prompt(state: dict) -> str:
 
 @cl.on_chat_start
 async def start():
-    from master_graph import get_graph_for_chainlit
+    try:
+        from master_graph import get_graph_for_chainlit
+    except Exception as e:
+        await cl.Message(content=f"⚠️ Error loading master graph: {e}. Check Railway logs for details.").send()
+        return
+    
     try:
         from langgraph.checkpoint.sqlite import SqliteSaver
         db_path = ROOT / "data" / "recruitment_checkpoints.sqlite"
@@ -70,7 +75,12 @@ async def start():
     except Exception:
         from langgraph.checkpoint.memory import MemorySaver
         checkpointer = MemorySaver()
-    graph = get_graph_for_chainlit(checkpointer)
+    
+    try:
+        graph = get_graph_for_chainlit(checkpointer)
+    except Exception as e:
+        await cl.Message(content=f"⚠️ Error creating graph: {e}. Check Railway logs.").send()
+        return
     thread_id = str(uuid.uuid4())
     cl.user_session.set("graph", graph)
     cl.user_session.set("thread_id", thread_id)
