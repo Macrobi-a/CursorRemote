@@ -306,10 +306,12 @@ def get_graph_for_chainlit(checkpointer=None):
     """
     if checkpointer is None:
         try:
-            from langgraph.checkpoint.sqlite import SqliteSaver
+            import sqlite3
             import tempfile
-            db = tempfile.gettempdir() + "/recruitment_checkpoints.sqlite"
-            checkpointer = SqliteSaver.from_conn_string(db)
+            from langgraph.checkpoint.sqlite import SqliteSaver
+            db = str(Path(tempfile.gettempdir()) / "recruitment_checkpoints.sqlite")
+            conn = sqlite3.connect(db, check_same_thread=False)
+            checkpointer = SqliteSaver(conn)
         except Exception:
             from langgraph.checkpoint.memory import MemorySaver
             checkpointer = MemorySaver()

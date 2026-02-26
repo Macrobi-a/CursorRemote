@@ -8,15 +8,28 @@ import sys
 import uuid
 from pathlib import Path
 
-# Ensure master_graph (in output/) is importable — from project root and in Docker (WORKDIR /app)
+# Ensure master_graph (in output/) is importable — local and Railway/Docker
 ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = ROOT / "output"
-# Railway/Docker: insert /app/output first so "from master_graph" always finds output/master_graph.py
-_DOCKER_OUTPUT = Path("/app/output")
-if _DOCKER_OUTPUT.exists():
-    sys.path.insert(0, str(_DOCKER_OUTPUT))
+
+def _add_output_to_path():
+    to_add = []
+    # Docker/Railway
+    if Path("/app/output").exists():
+        to_add.append("/app/output")
+    # From __file__ (app.py in project root)
+    if OUTPUT_DIR.exists():
+        to_add.append(str(OUTPUT_DIR))
+    # From current working directory (Chainlit may run with different cwd)
+    cwd_output = Path.cwd() / "output"
+    if cwd_output.exists() and str(cwd_output) not in to_add:
+        to_add.append(str(cwd_output))
+    for p in reversed(to_add):
+        if p not in sys.path:
+            sys.path.insert(0, p)
+
+_add_output_to_path()
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(OUTPUT_DIR))
 
 import chainlit as cl
 
@@ -66,6 +79,7 @@ def _get_human_prompt(state: dict) -> str:
 
 @cl.on_chat_start
 async def start():
+    _add_output_to_path()  # ensure path is set in case Chainlit worker has different cwd
     try:
         from master_graph import get_graph_for_chainlit
     except Exception as e:
@@ -73,11 +87,13 @@ async def start():
         return
     
     try:
+        import sqlite3
         from langgraph.checkpoint.sqlite import SqliteSaver
         db_path = ROOT / "data" / "recruitment_checkpoints.sqlite"
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        # Use file path for SQLite (persists across Chainlit reloads)
-        checkpointer = SqliteSaver.from_conn_string(f"file:{db_path}?mode=rwc")
+        # SqliteSaver.from_conn_string returns a context manager; use direct conn + SqliteSaver(conn) so we pass a real saver
+        conn = sqlite3.connect(str(db_path), check_same_thread=False)
+        checkpointer = SqliteSaver(conn)
     except Exception:
         from langgraph.checkpoint.memory import MemorySaver
         checkpointer = MemorySaver()
