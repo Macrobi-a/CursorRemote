@@ -8,9 +8,15 @@ import sys
 import uuid
 from pathlib import Path
 
+# Ensure master_graph (in output/) is importable — from project root and in Docker (WORKDIR /app)
 ROOT = Path(__file__).resolve().parent
+OUTPUT_DIR = ROOT / "output"
+# Railway/Docker: insert /app/output first so "from master_graph" always finds output/master_graph.py
+_DOCKER_OUTPUT = Path("/app/output")
+if _DOCKER_OUTPUT.exists():
+    sys.path.insert(0, str(_DOCKER_OUTPUT))
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "output"))
+sys.path.insert(0, str(OUTPUT_DIR))
 
 import chainlit as cl
 
