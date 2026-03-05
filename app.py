@@ -57,6 +57,7 @@ def _initial_state(user_input: str = "Starting recruitment process"):
 
 
 # Human step prompts (same as in master_graph) so we can show them in the UI
+# For steps that have agent-produced context in state, we inject it below (see _get_human_prompt).
 HUMAN_PROMPTS = {
     "human_outbound_caller": "Make outbound calls. Enter call outcomes:",
     "human_client_job_intake": "Conduct client job intake. Enter job requirements:",
@@ -71,10 +72,61 @@ HUMAN_PROMPTS = {
     "human_candidate_follow_up": "Follow up with candidate. Enter follow-up notes:",
 }
 
+# Why this step cannot be done by an agent — human-only verification (agents iterate on the rest)
+# Used so the system explicitly documents: "only interrupt for what only humans can do"
+HUMAN_ONLY_REASONS = {
+    "human_outbound_caller": "Requires a live voice call with potential clients. Agents cannot conduct real phone calls or build human rapport.",
+    "human_client_job_intake": "Requires a real conversation with the client to capture job requirements and nuance. Agents can structure data but not hold the call.",
+    "human_initial_screening_call": "Requires a live voice/video screening call with the candidate. Agents cannot conduct real-time conversational interviews.",
+    "human_candidate_interview": "Requires a live human interview (voice/video or in-person). Agents cannot replicate genuine interview dialogue and judgment.",
+    "human_candidate_follow_up": "Requires a personal follow-up (call or meeting) with the candidate. Relationship and tone need a human.",
+    "human_offer_negotiation": "Requires human negotiation and commitment (offer discussion, acceptance). Agents cannot legally or socially close an offer.",
+    "human_legal_compliance_verification": "Requires a human to verify and sign off on compliance; legal responsibility cannot be delegated to an agent.",
+    "human_client_submission_approval": "Requires a human decision to approve which candidates go to the client; judgment and accountability stay with the human.",
+    "human_interview_prep_debriefer": "Requires a live prep or debrief conversation with the candidate or team. Agents can’t do the actual conversation.",
+    "human_temp_onboarding_review": "Requires a human to review and sign a temp contract; legal and relationship elements are human-only.",
+    "human_strategy_oversight": "Requires human strategic judgment and accountability; agents can suggest, humans decide.",
+}
+# Fallback when a human step isn’t in the map (e.g. new step from design)
+DEFAULT_HUMAN_ONLY_REASON = "This step requires a human action (e.g. voice call, in-person meeting, or legal/judgment decision) that agents cannot perform."
+
 
 def _get_human_prompt(state: dict) -> str:
-    step = (state.get("data") or {}).get("next_human_node") or state.get("next_human_node") or ""
-    return HUMAN_PROMPTS.get(step, f"Handle human step: {step}. Enter your input:")
+    """Build prompt for the current human step. Injects agent-produced context (e.g. lead contact details) when present."""
+    data = state.get("data") or {}
+    client_reqs = state.get("client_requirements") or {}
+    step = data.get("next_human_node") or state.get("next_human_node") or ""
+    base = HUMAN_PROMPTS.get(step, f"Handle human step: {step}. Enter your input:")
+
+    # Outbound caller: show the contact details the agents scraped so the human has the numbers
+    if step == "human_outbound_caller":
+        contacts = data.get("initial_client_contact_details") or client_reqs.get("initial_client_contact_details") or []
+        if contacts:
+            lines = [base, "", "**Leads from agent (use these numbers):**"]
+            for i, c in enumerate(contacts[:15], 1):
+                name = c.get("company_name", "?")
+                phone = c.get("company_phone_number", c.get("phone", "—"))
+                email = c.get("contact_email", c.get("email", "—"))
+                role = c.get("target_role", "")
+                lines.append(f"  {i}. **{name}** — Phone: {phone}  Email: {email}" + (f"  ({role})" if role else ""))
+            lines.append("")
+            lines.append("Reply with your call outcomes (or done/exit to finish).")
+            return "\n".join(lines)
+        else:
+            return base + "\n\n(No contact details in state yet — run the pipeline from Start so lead generation and contact lookup run first.)"
+
+    # Client job intake: if we have contact context, mention it
+    if step == "human_client_job_intake":
+        contacts = data.get("initial_client_contact_details") or client_reqs.get("initial_client_contact_details") or []
+        if contacts:
+            base += "\n\n(You have contact details from the outbound step above; enter the job requirements from the client.)"
+
+    return base
+
+
+def _get_human_only_reason(step: str) -> str:
+    """Why this step cannot be done by an agent; used to show human-only verification in the UI."""
+    return HUMAN_ONLY_REASONS.get(step, DEFAULT_HUMAN_ONLY_REASON)
 
 
 @cl.on_chat_start
@@ -91,7 +143,7 @@ async def start():
         from langgraph.checkpoint.sqlite import SqliteSaver
         db_path = ROOT / "data" / "recruitment_checkpoints.sqlite"
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        # SqliteSaver.from_conn_string returns a context manager; use direct conn + SqliteSaver(conn) so we pass a real saver
+        # Use direct constructor only (never from_conn_string — that returns a context manager and causes "invalid checkpointer")
         conn = sqlite3.connect(str(db_path), check_same_thread=False)
         checkpointer = SqliteSaver(conn)
     except Exception:
@@ -187,11 +239,17 @@ async def main(message: cl.Message):
             next_nodes = state_snapshot.next if isinstance(state_snapshot.next, (list, tuple)) else [state_snapshot.next]
             if next_nodes and "human_in_the_loop" in str(next_nodes):
                 vals = getattr(state_snapshot, "values", None) or {}
+                data = vals.get("data") or {}
+                step = data.get("next_human_node") or vals.get("next_human_node") or ""
                 prompt = _get_human_prompt(vals)
+                reason = _get_human_only_reason(step)
                 cl.user_session.set("waiting_for_human", True)
                 cl.user_session.set("human_prompt", prompt)
                 await cl.Message(
-                    content=f"**Human step** — {prompt}\n\nReply in chat with your input (or type **done** / **exit** to finish)."
+                    content=f"**Agents have done everything they can.** This step requires a human.\n\n"
+                    f"**Why human-only:** {reason}\n\n"
+                    f"---\n\n{prompt}\n\n"
+                    f"Reply in chat with your input (or type **done** / **exit** to finish)."
                 ).send()
                 return
     except Exception:
