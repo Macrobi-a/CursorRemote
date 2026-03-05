@@ -91,7 +91,7 @@ async def start():
         from langgraph.checkpoint.sqlite import SqliteSaver
         db_path = ROOT / "data" / "recruitment_checkpoints.sqlite"
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        # SqliteSaver.from_conn_string returns a context manager; use direct conn + SqliteSaver(conn) so we pass a real saver
+        # Use direct constructor only (never from_conn_string — that returns a context manager and causes "invalid checkpointer")
         conn = sqlite3.connect(str(db_path), check_same_thread=False)
         checkpointer = SqliteSaver(conn)
     except Exception:

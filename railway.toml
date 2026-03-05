@@ -1,10 +1,11 @@
 # Railway deployment: persistent server for the recruitment workflow
 # Deploy: railway link && railway up (or connect repo and auto-deploy)
 # Docs: https://docs.railway.app/
+# IMPORTANT: Use Dockerfile.chainlit so you get the Chainlit BROWSER UI (chat), not the plain API.
 
 [build]
 builder = "dockerfile"
-dockerfilePath = "Dockerfile.chainlit"  # Use Chainlit Dockerfile for browser UI
+dockerfilePath = "Dockerfile.chainlit"
 
 [deploy]
 # Chainlit runs on port from Dockerfile CMD (uses ${PORT:-8000})
