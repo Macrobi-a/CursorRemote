@@ -3,6 +3,11 @@ Guided workflow: explain the revenue-from-course path, then walk the human
 step-by-step in logical order. For each step, explain clearly; when it's a human
 task, explain what to do and wait for the human to report back, then continue.
 Run after the course has been processed (output/system_design.json exists).
+
+Design principle: Agents do everything that can be automated; humans are only
+asked for steps that cannot be done by agents (e.g. live voice calls, in-person
+meetings, legal sign-off). The Chainlit UI shows "Why human-only" for each
+human step (see app.py HUMAN_ONLY_REASONS).
 """
 import json
 from collections import deque

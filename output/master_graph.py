@@ -311,7 +311,7 @@ def get_graph_for_chainlit(checkpointer=None):
             from langgraph.checkpoint.sqlite import SqliteSaver
             db = str(Path(tempfile.gettempdir()) / "recruitment_checkpoints.sqlite")
             conn = sqlite3.connect(db, check_same_thread=False)
-            checkpointer = SqliteSaver(conn)
+            checkpointer = SqliteSaver(conn)  # direct constructor returns saver instance, not context manager
         except Exception:
             from langgraph.checkpoint.memory import MemorySaver
             checkpointer = MemorySaver()

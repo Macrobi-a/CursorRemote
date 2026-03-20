@@ -45,13 +45,14 @@ git push -u origin main
 
 ---
 
-### Step 4: Verify Dockerfile (2 min)
+### Step 4: Use Chainlit (browser UI) — important
 1. Click your service
-2. Go to "Settings" → "Build"
-3. Verify: **Dockerfile Path** = `Dockerfile.chainlit`
-4. If wrong, change it and save
+2. Go to **Settings** → **Build**
+3. Set **Dockerfile Path** to: **`Dockerfile.chainlit`**
+4. Save (so you get the chat UI, not the plain API)
 
-**✅ Check:** Dockerfile path is `Dockerfile.chainlit`
+**✅ Check:** Dockerfile path is `Dockerfile.chainlit`.  
+**If you see plain text at your URL:** Follow `RAILWAY_RUN_CHAINLIT.md` and redeploy.
 
 ---
 

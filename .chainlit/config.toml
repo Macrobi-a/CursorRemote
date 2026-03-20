@@ -1,12 +1,24 @@
-[project]
-name = "Recruitment workflow"
-description = "Run the course-to-revenue pipeline in the browser. See each agent step; reply in chat for human steps."
-enable_telemetry = false
+# Chainlit config — current schema (regenerate with: chainlit init)
+# See https://docs.chainlit.io/backend/config/overview
 
-[UI]
-default_collapse_content = true
-show_readme_as_default = false
-hide_cot = false
+[project]
+user_env = []
+session_timeout = 3600
+user_session_timeout = 1296000
+cache = false
+allow_origins = ["*"]
 
 [features]
-show_steps = true
+unsafe_allow_html = false
+latex = false
+user_message_autoscroll = true
+auto_tag_thread = true
+edit_message = true
+
+[UI]
+name = "Recruitment workflow"
+description = "Run the course-to-revenue pipeline. See each agent step; reply in chat for human steps."
+cot = "full"
+
+[meta]
+generated_by = "2.6.6"
