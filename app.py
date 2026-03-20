@@ -163,7 +163,7 @@ async def start():
     await cl.Message(
         content="**Recruitment workflow** is active. Type **Start** (or any message) to run the pipeline. "
                 "You'll see each step in the UI. When a human step appears, reply in chat — your reply is fed back into the graph. "
-                "Use **done** / **exit** to end the workflow."
+                "Use **done** / **exit** to end the workflow. Type **diagram** to view how all agents are connected."
     ).send()
 
 
@@ -200,6 +200,31 @@ async def main(message: cl.Message):
     if not graph:
         await cl.Message(content="Session missing graph. Please refresh the page.").send()
         return
+
+    # View workflow diagram (agents and how they're connected)
+    msg_lower = (message.content or "").strip().lower()
+    if msg_lower in ("diagram", "workflow", "workflow diagram", "view diagram", "show workflow"):
+        try:
+            mermaid = graph.get_graph().draw_mermaid()
+            diagram_path = ROOT / "workflow_diagram.html"
+            html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><title>Workflow</title>
+<script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+mermaid.initialize({{ startOnLoad: true, theme: 'dark', flowchart: {{ curve: 'linear' }} }});</script>
+<style>body{{font-family:system-ui;background:#1a1a1a;color:#e0e0e0;margin:1rem;}}.mermaid{{background:#252525;padding:1rem;border-radius:8px;}}</style></head>
+<body><h2>Recruitment workflow</h2><p>Agents and human-in-the-loop connections.</p><div class="mermaid">\n{mermaid}\n</div></body></html>"""
+            diagram_path.write_text(html, encoding="utf-8")
+            await cl.Message(
+                content=f"**Workflow diagram**\n\n"
+                f"A diagram file was saved. Open it in your browser to see how all agents are connected:\n\n"
+                f"**File:** `{diagram_path.resolve()}`\n\n"
+                f"You can also run from the project folder:\n"
+                f"`python view_workflow_diagram.py`\n\n"
+                f"That will generate and open the same diagram."
+            ).send()
+            return
+        except Exception as e:
+            await cl.Message(content=f"Could not generate diagram: {e}").send()
+            return
 
     # Resuming after a human step: inject the user's message and continue
     if waiting:
